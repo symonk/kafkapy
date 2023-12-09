@@ -1,4 +1,4 @@
-files: ^(asserto|scripts)
+files: ^(kafkapy|scripts)
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.7

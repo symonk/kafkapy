@@ -2,22 +2,26 @@ import typing
 from collections import namedtuple
 from kafka import KafkaAdminClient
 
+
 class BootstrapServer(namedtuple):
     """An encapsulation of meta data to talk to a broker."""
+
     host: str = "localhost"
     port: int = 9092
+
 
 class KafkaClient:
     """Core client for administering the kafka cluster."""
 
-    def __init__(self,
-                 bootstrap_servers: typing.Sequence[BootstrapServer],
-                 client_id: str,
-                 reconnect_backoff_ms: int = 50,
-                 reconnect_backoff_max_ms: int = 1000,
-                 request_timeout_ms: int = 30_000
-                 # Todo: More options to implement.
-                 ) -> None:
+    def __init__(
+        self,
+        bootstrap_servers: typing.Sequence[BootstrapServer],
+        client_id: str,
+        reconnect_backoff_ms: int = 50,
+        reconnect_backoff_max_ms: int = 1000,
+        request_timeout_ms: int = 30_000,
+        # Todo: More options to implement.
+    ) -> None:
         self.bootstrap_servers = bootstrap_servers or (BootstrapServer(),)
         self.client_id = client_id
         self.reconnect_backoff_ms = reconnect_backoff_ms
@@ -44,4 +48,3 @@ class KafkaClient:
 
     def retrieve_topics() -> ...:
         ...
-

@@ -1,9 +1,7 @@
 import typer
 
 
-app = typer.Typer(
-    help="",
-    rich_markup_mode="rich")
+app = typer.Typer(help="", rich_markup_mode="rich")
 
 
 @app.command()
