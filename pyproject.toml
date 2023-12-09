@@ -21,7 +21,10 @@ include = ["kafkapy/py.typed"]
 [tool.poetry.dependencies]
 python = "^3.10"
 kafka-python ="^2.0.2"
-typer-cli = "^0.0.13"
+
+[tool.poetry.scripts]
+kafkapy = "kafkapy.main:main"
+
 
 [tool.poetry.dev-dependencies]
 codecov = "^2.1.13"
@@ -32,7 +35,7 @@ mkdocstrings= "^0.22.0"
 mkdocstrings-python = "^1.7.5"
 pytest = "^7.4.3"
 tox = "^4.11.3"
-pip = "^22.3.1"
+pip = "^23.3.1"
 coverage = "^7.3.2"
 towncrier = "^23.11.0"
 
