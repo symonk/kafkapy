@@ -8,7 +8,7 @@ app = typer.Typer(
     rich_markup_mode="rich")
 
 @app.command()
-def check():
+def check(boostrap_server: str, group: str):
     """Execute various checks."""
     typer.Exit(code=0)
 
@@ -21,10 +21,6 @@ def main(verbose: bool = False):
     """
     A Suite of utilities for managing a [bold][red]kafka[/bold][/red] cluster.
     """
-    total = 0
-    for _ in track(range(10_000), description="[green][bold]initializing[green][bold]"):
-        time.sleep(0.01)
-        total += 1
 
 
 if __name__ == "__main__":
