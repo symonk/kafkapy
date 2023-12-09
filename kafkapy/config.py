@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from client import BootstrapServer
 import typing
 
 
@@ -7,6 +6,6 @@ import typing
 class Configuration:
     """The runtime configuration."""
 
-    brokers: typing.List[BootstrapServer]
+    brokers: typing.List[str]
     client_id: str
     verbose: bool

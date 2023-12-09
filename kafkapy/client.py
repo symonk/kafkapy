@@ -1,13 +1,6 @@
 import typing
-from collections import namedtuple
 from kafka import KafkaAdminClient
-
-
-class BootstrapServer(namedtuple):
-    """An encapsulation of meta data to talk to a broker."""
-
-    host: str = "localhost"
-    port: int = 9092
+from kafka.cluster import ClusterMetadata
 
 
 class KafkaClient:
@@ -15,36 +8,46 @@ class KafkaClient:
 
     def __init__(
         self,
-        bootstrap_servers: typing.Sequence[BootstrapServer],
+        brokers: typing.Sequence[str],
         client_id: str,
         reconnect_backoff_ms: int = 50,
         reconnect_backoff_max_ms: int = 1000,
         request_timeout_ms: int = 30_000,
         # Todo: More options to implement.
     ) -> None:
-        self.bootstrap_servers = bootstrap_servers or (BootstrapServer(),)
+        self.bootstrap_servers = brokers or ("localhost:9092",)
         self.client_id = client_id
         self.reconnect_backoff_ms = reconnect_backoff_ms
         self.reconnect_backoff_max_ms = reconnect_backoff_max_ms
         self.request_timeout_ms = request_timeout_ms
-        self.client = KafkaAdminClient()
+        self.client = self.initialize_client()
+        self.metadata = ClusterMetadata(**{"bootstrap_servers": self.bootstrap_servers})
+
+    @property
+    def broker_metadata(self) -> typing.Dict[typing.Any, typing.Any]:
+        return self.metadata.brokers()
+
+    def get_broker_metadata(self, broker_id: int) -> typing.Dict[typing.Any, typing.Any]:
+        data = self.metadata.broker_metadata(broker_id)
+        if data is None:
+            raise ValueError(f"No broker data for broker: {broker_id}.")
+        return data
 
     def initialize_client(self) -> KafkaAdminClient:
         """Initialize the client."""
-        return KafkaAdminClient(
-            self.bootstrap_servers,
-            self.client_id,
-        )
+        return KafkaAdminClient(**{"bootstrap_servers": self.bootstrap_servers, "client_id": self.client_id})
 
     def close(self) -> None:
         """Close the underlying client."""
         self.client.close()
 
-    def __enter__():
+    # Todo: Implement ctx mgr protocol.
+    def __enter__(self):
         ...
 
-    def __exit__():
-        ...
+    def __exit__(self):
+        self.close()
 
-    def retrieve_topics() -> ...:
-        ...
+    def retrieve_topics(self, include_internal_topics: bool) -> typing.Dict[typing.Any, typing.Any]:
+        topics = self.metadata.topics(exclude_internal_topics=not include_internal_topics)
+        return topics
