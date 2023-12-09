@@ -21,6 +21,7 @@ include = ["kafkapy/py.typed"]
 [tool.poetry.dependencies]
 python = "^3.10"
 kafka-python ="^2.0.2"
+typer-cli = "^0.0.13"
 
 [tool.poetry.dev-dependencies]
 codecov = "^2.1.13"
