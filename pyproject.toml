@@ -1,0 +1,70 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.towncrier]
+directory = "changes"
+filename = "CHANGELOG.rst"
+version = "21.9.0"
+name = "kafkapy"
+underlines = "=-~"
+all_bullets = true
+
+[tool.poetry]
+name = "kafkapy"
+version = "0.1.0"
+description = "Python CLI for managing a kafka cluster" 
+authors = ["symonk <jackofspaces@gmail.com>"]
+readme = "README.md"
+include = ["kafkapy/py.typed"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+kafka-python ="^2.0.2"
+
+[tool.poetry.dev-dependencies]
+codecov = "^2.1.13"
+pre-commit = "^3.5.0"
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.4.14"
+mkdocstrings= "^0.22.0"
+mkdocstrings-python = "^1.7.5"
+pytest = "^7.4.3"
+tox = "^4.11.3"
+pip = "^22.3.1"
+coverage = "^7.3.2"
+towncrier = "^23.11.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest-xdist = "^3.3.1"
+typing-extensions = "^4.7.1"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:RequestsDependencyWarning:"
+]
+
+[tool.mypy]
+mypy_path = '/kafkapy'
+check_untyped_defs = 'True'
+disallow_any_generics = 'True'
+ignore_missing_imports = 'False'
+show_error_codes = 'True'
+strict_equality = 'True'
+warn_redundant_casts = 'True'
+warn_return_any = 'False'
+warn_unreachable = 'True'
+warn_unused_configs = 'True'
+no_implicit_reexport = 'False'
+ignore_errors = 'False'
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
