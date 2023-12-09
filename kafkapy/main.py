@@ -16,7 +16,8 @@ app.add_typer(acls_app, name="access-controls")
 
 @app.callback(help="Below are the supported top level options and [bold]subcommands[/bold] available.")
 def main(
-    version: Annotated[bool, typer.Option(help="View the installed kafapy version", callback=version_callback)],
+    ctx: typer.Context,
+    version: Annotated[bool, typer.Option("--version", help="View the installed kafkapy version", callback=version_callback)] = False,
     brokers: Annotated[typing.List[str], typer.Option(help="Bootstrap (broker) host:port")] = ["localhost:9092"],
     client_id: Annotated[str, typer.Option(help="The user agent, recorded in backend kafka logs.")] = "kafkapy",
     verbose: Annotated[bool, typer.Option(help="Enable verbose output.")] = False,
