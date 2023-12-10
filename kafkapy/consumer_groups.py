@@ -1,8 +1,10 @@
 import typer
+from kafkapy.constants import AppHelp
 
 
 consumers = typer.Typer(
-    help=":star2: [green][bold]Consumer Groups Inspection & Management[/green][/bold]", rich_markup_mode="rich"
+    help=AppHelp.CONSUMER_GROUPS_DESCRIPTION,
+    rich_markup_mode="rich",
 )
 
 

@@ -34,5 +34,17 @@ class CommandDescriptions:
     TOPIC_CREATE = CommandMeta(description="Create a new topic")
 
 
+APP_NAME__TEMPLATE = "[green][b]{app} Management & Inspection[/green][/b]. :star2:"
+
+
+class AppHelp:
+    """Encapsulation of individual app descriptions."""
+
+    ACL_DESCRIPTION = APP_NAME__TEMPLATE.format(app="ACL")
+    BROKER_DESCRIPTION = APP_NAME__TEMPLATE.format(app="Broker")
+    TOPIC_DESCRIPTION = APP_NAME__TEMPLATE.format(app="Topic")
+    CONSUMER_GROUPS_DESCRIPTION = APP_NAME__TEMPLATE.format(app="Consumer Group")
+
+
 # Sub Commands
 CHECK_COMMAND_HELP = "[green][bold]CHECK COMMAND[/green][/bold]"

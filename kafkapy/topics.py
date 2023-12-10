@@ -2,10 +2,10 @@ import typer
 from typing import Annotated
 from kafkapy.deco import set_cmd_description
 from kafkapy.client import KafkaClient
-from kafkapy.constants import CommandDescriptions
+from kafkapy.constants import CommandDescriptions, AppHelp
 import rich
 
-topics = typer.Typer(help=":star2: [green][bold]Topic Inspection & Management[/green][/bold]", rich_markup_mode="rich")
+topics = typer.Typer(help=AppHelp.TOPIC_DESCRIPTION, rich_markup_mode="rich")
 
 topics_list_option = typer.Option("--include-internal", help="Display [i]internal[/i] topics in the output.")
 
@@ -32,7 +32,7 @@ def partitions(ctx: typer.Context, topic: Annotated[str, typer.Option(help="The 
 @set_cmd_description(CommandDescriptions.TOPIC_DELETE)
 @topics.command()
 def delete():
-    """[b][white]Delete an individual topic[/b][/white]"""
+    ...
 
 
 @set_cmd_description(CommandDescriptions.TOPIC_DESTROY)

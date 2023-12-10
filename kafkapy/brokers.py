@@ -4,10 +4,12 @@ from kafkapy.deco import set_cmd_description
 from kafkapy.constants import CommandDescriptions
 import sys
 from typing import Annotated
+from kafkapy.constants import AppHelp
 import rich
 
 brokers = typer.Typer(
-    help=":star2: [green][bold]Broker Inspection & Management[/green][/bold]", rich_markup_mode="rich"
+    help=AppHelp.BROKER_DESCRIPTION,
+    rich_markup_mode="rich",
 )
 
 brokers_id_opt = typer.Option("--broker-id", help="The broker ID to check")
