@@ -14,7 +14,7 @@ import rich
 app = typer.Typer(
     help="Python CLI for managing kafka clusters.",
     rich_markup_mode="rich",
-    context_settings={"help_option_names": ["-h", "--help"]},
+    context_settings={"help_option_names": ["-h"]},
 )
 app.add_typer(topics, name="topics")
 app.add_typer(consumers, name="consumer-groups")
