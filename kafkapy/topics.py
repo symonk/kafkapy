@@ -1,6 +1,8 @@
 import typer
 from typing import Annotated
+from kafkapy.deco import set_cmd_description
 from kafkapy.client import KafkaClient
+from kafkapy.constants import CommandDescriptions
 import rich
 
 topics = typer.Typer(help=":star2: [green][bold]Topic Inspection & Management[/green][/bold]", rich_markup_mode="rich")
@@ -8,30 +10,38 @@ topics = typer.Typer(help=":star2: [green][bold]Topic Inspection & Management[/g
 topics_list_option = typer.Option("--include-internal", help="Display [i]internal[/i] topics in the output.")
 
 
+@set_cmd_description(CommandDescriptions.TOPIC_VIEW)
 @topics.command()
 def list(
     ctx: typer.Context,
     include_internal: Annotated[bool, topics_list_option] = False,
 ) -> None:
-    """[b][white]View the set of known topics, optionally including internal topics.[/white][b]."""
     client: KafkaClient = ctx.obj
     topics = client.retrieve_topics(include_internal_topics=include_internal)
     rich.print(topics)
 
 
+@set_cmd_description(CommandDescriptions.TOPIC_PARTITIONS)
 @topics.command()
 def partitions(ctx: typer.Context, topic: Annotated[str, typer.Option(help="The topic to lookup")]) -> None:
-    """[b][white]List all partitions for the topic (whether available or not)[/b][/white]."""
     client: KafkaClient = ctx.obj
     partitions = client.retrieve_topic_partitions(topic)
     rich.print(partitions)
 
 
+@set_cmd_description(CommandDescriptions.TOPIC_DELETE)
 @topics.command()
 def delete():
+    """[b][white]Delete an individual topic[/b][/white]"""
+
+
+@set_cmd_description(CommandDescriptions.TOPIC_DESTROY)
+@topics.command()
+def destroy():
     ...
 
 
+@set_cmd_description(CommandDescriptions.TOPIC_CREATE)
 @topics.command()
 def create(ctx: typer.Context):
-    """[b][white]Create new topics[/b][/white]"""
+    ...

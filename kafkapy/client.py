@@ -25,7 +25,6 @@ class KafkaClient:
         self.client = self.initialize_client()
         self.metadata = ClusterMetadata(**{"bootstrap_servers": self.bootstrap_servers})
 
-    @property
     def broker_metadata(self) -> typing.Dict[typing.Any, typing.Any]:
         return self.metadata.brokers()
 
