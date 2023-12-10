@@ -20,7 +20,7 @@ class CommandDescriptions:
     """Encapsulation of command descriptions."""
 
     # broker specifics
-    BROKER_VIEW = CommandMeta(
+    BROKER_LIST = CommandMeta(
         description="Retrieve meta data for some or all brokers", danger=False
     )
     BROKER_VIEW_PARTITIONS = CommandMeta(
@@ -46,7 +46,7 @@ class OptionDescriptions:
     """Encapsulation of Argument Descriptions."""
 
 
-APP_NAME__TEMPLATE = "[green][b]{app} Management & Inspection[/green][/b]. :star2:"
+APP_NAME__TEMPLATE = "[green][b]{app} Management & Inspection[/green][/b] :star2:"
 
 
 class AppHelp:

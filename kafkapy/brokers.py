@@ -2,8 +2,10 @@ import typer
 from kafkapy.client import KafkaClient
 from kafkapy.deco import set_cmd_description
 from kafkapy.constants import CommandDescriptions
+from kafkapy.utils import client_from_context
 import sys
 from typing_extensions import Annotated
+from typing import List
 from kafkapy.constants import AppHelp
 import rich
 
@@ -12,19 +14,19 @@ brokers = typer.Typer(help=AppHelp.BROKER_DESCRIPTION, rich_markup_mode="rich")
 brokers_id_opt = typer.Option("--broker-id", help="The broker ID to check")
 
 
-@set_cmd_description(CommandDescriptions.BROKER_VIEW)
+@set_cmd_description(CommandDescriptions.BROKER_LIST)
 @brokers.command()
-def list(ctx: typer.Context, broker_id: Annotated[str, brokers_id_opt] = None):
-    client: KafkaClient = ctx.obj
+def list(ctx: typer.Context, broker_ids: Annotated[List[str], brokers_id_opt] = None):
+    client = client_from_context(ctx)
     fn = (
         client.broker_metadata
-        if broker_id is None
-        else client.get_broker_metadata(broker_id)
+        if not broker_ids
+        else client.get_broker_metadata(broker_ids)
     )
     broker_data = fn()
     if broker_data is None:
         rich.print(
-            f"No such broker with id: {broker_id}, use brokers list-all to view all available.",
+            f"No such broker with id: {broker_ids}, use brokers list-all to view all available.",
             file=sys.stderr,
         )
         raise typer.Exit(code=1)

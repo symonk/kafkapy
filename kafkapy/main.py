@@ -7,9 +7,7 @@ from typing_extensions import Annotated
 from kafkapy.acls import acls
 from kafkapy.config import Configuration
 from kafkapy.callbacks import version_callback
-from kafkapy.client import KafkaClient
-from kafka.errors import KafkaError
-import rich
+from kafkapy.utils import client_from_context
 
 app = typer.Typer(
     help="Python CLI for managing kafka clusters.",
@@ -53,16 +51,11 @@ def main(
     client_id: Annotated[str, root_client_id_cmd] = "kafkapy",
     verbose: Annotated[bool, root_verbose_cmd] = False,
 ) -> None:
+    """The main callback is responsible for handling reusable options that
+    almost every subcommand requires.  It is also responsible for initializing
+    a singleton client."""
     cfg = Configuration(brokers=brokers, client_id=client_id, verbose=verbose)
-    try:
-        client = KafkaClient(brokers=cfg.brokers, client_id=cfg.client_id)
-    except KafkaError as err:
-        rich.print(
-            f"[red][bold]{err.__class__.__name__}[/red][/bold](0 brokers reachable for: {cfg.brokers})."
-        )
-        raise typer.Exit(code=1)
-
-    ctx.obj = client
+    client_from_context(ctx=ctx, config=cfg)
 
 
 if __name__ == "__main__":
