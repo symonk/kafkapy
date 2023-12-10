@@ -74,3 +74,4 @@ target-version = "py311"
 quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
+skip-magic-trailing-comma = false
