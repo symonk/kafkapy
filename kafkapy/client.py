@@ -1,11 +1,11 @@
 from __future__ import annotations
 import typing
 import types
-from kafka import KafkaAdminClient
-from kafka.cluster import ClusterMetadata
+from confluent_kafka.admin import AdminClient
+from confluent_kafka.admin import ClusterMetadata
 
 
-class KafkaClient:
+class KafkaPyClient:
     """Core client for administering the kafka cluster."""
 
     def __init__(
@@ -40,17 +40,21 @@ class KafkaClient:
     ) -> typing.Dict[typing.Any, typing.Any]:
         return self.metadata.partitions_for_broker(broker_id)
 
-    def initialize_client(self) -> KafkaAdminClient:
+    def initialize_client(self) -> AdminClient:
         """Initialize the client."""
-        return KafkaAdminClient(
+        return AdminClient(
             **{"bootstrap_servers": self.bootstrap_servers, "client_id": self.client_id}
         )
+
+    def create_topics(self, name: str):
+        """Create new topic(s)."""
+        self.client.create_topics(new_topics=[{"name": name}])
 
     def close(self) -> None:
         """Close the underlying client."""
         self.client.close()
 
-    def __enter__(self) -> KafkaClient:
+    def __enter__(self) -> KafkaPyClient:
         return self
 
     def __exit__(
@@ -68,6 +72,9 @@ class KafkaClient:
             exclude_internal_topics=not include_internal_topics
         )
         return topics
+
+    def delete_topic(self, name: str) -> typing.Any:
+        return self.client.delete_topics(name)
 
     def retrieve_topic_partitions(
         self, topic: str

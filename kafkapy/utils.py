@@ -1,4 +1,4 @@
-from kafkapy.client import KafkaClient
+from kafkapy.client import KafkaPyClient
 from kafkapy.config import Configuration
 import typing
 from kafkapy.out import die
@@ -8,7 +8,7 @@ import typer
 
 def client_from_context(
     ctx: typer.Context, config: typing.Optional[Configuration] = None
-) -> KafkaClient:
+) -> KafkaPyClient:
     """Setup the client within the shared context for use throughout command
     invocations.  This is handled via the main callback.  If not client has
     been set initially, this will create one and attach it to the context.
@@ -20,7 +20,7 @@ def client_from_context(
             # Todo: Make this better..
             die(1, "Critical Error initializing client.")
         try:
-            client = KafkaClient(brokers=config.brokers, client_id=config.client_id)
+            client = KafkaPyClient(brokers=config.brokers, client_id=config.client_id)
         except KafkaError as err:
             die(message=err, code=1)
         ctx.obj = client

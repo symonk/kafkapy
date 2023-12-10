@@ -20,9 +20,9 @@ include = ["kafkapy/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-kafka-python ="2.0.2"
 typer = {extras = ["all"], version = "^0.9.0"}
 rich = "^13.7.0"
+confluent-kafka = "^2.3.0"
 
 [tool.poetry.scripts]
 kafka-py = "kafkapy.main:main"

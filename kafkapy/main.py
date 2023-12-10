@@ -12,7 +12,7 @@ from kafkapy.utils import client_from_context
 app = typer.Typer(
     help="Python CLI for managing kafka clusters.",
     rich_markup_mode="rich",
-    context_settings={"help_option_names": ["-h"]},
+    context_settings={"help_option_names": ["--help"]},
 )
 app.add_typer(topics, name="topics")
 app.add_typer(consumers, name="consumer-groups")
