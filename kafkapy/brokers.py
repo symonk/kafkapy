@@ -4,7 +4,9 @@ from kafkapy.client import KafkaClient
 from typing import Annotated
 import rich
 
-brokers_app = typer.Typer(help="Manage Brokers")
+brokers_app = typer.Typer(
+    help=":star: [green][bold]Broker Inspection & Management[/green][/bold]", rich_markup_mode="rich"
+)
 
 
 @brokers_app.command(rich_help_panel=text_wrap("Topic Inspection & Management :snake:"))
