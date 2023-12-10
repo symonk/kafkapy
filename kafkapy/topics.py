@@ -1,5 +1,5 @@
 import typer
-from typing import Annotated
+from typing_extensions import Annotated
 from kafkapy.deco import set_cmd_description
 from kafkapy.client import KafkaClient
 from kafkapy.constants import CommandDescriptions, AppHelp

@@ -3,7 +3,7 @@ from kafkapy.client import KafkaClient
 from kafkapy.deco import set_cmd_description
 from kafkapy.constants import CommandDescriptions
 import sys
-from typing import Annotated
+from typing_extensions import Annotated
 from kafkapy.constants import AppHelp
 import rich
 
