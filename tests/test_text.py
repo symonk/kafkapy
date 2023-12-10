@@ -11,6 +11,7 @@ def test_bold_text() -> None:
 def test_italic_text() -> None:
     assert text_wrap("foo", italic=True) == "[italic]foo[/italic]"
 
+
 def test_coloured_text() -> None:
     assert text_wrap("foo", colour="white") == "[white]foo[/white]"
 

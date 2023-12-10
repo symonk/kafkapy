@@ -20,18 +20,42 @@ app.add_typer(acls_app, name="access-controls")
 app.add_typer(brokers_app, name="brokers")
 
 
-@app.callback(help="Below are the supported top level options and [bold]subcommands[/bold] available.")
+version_help = "test"
+root_help = ":star: [green][bold]Kafkapy loaded.[/green]  See available arguments and subcommands below.[/bold]"
+
+# The handling for the  --version option.
+root_version_cmd = (
+    typer.Option(
+        "--version",
+        help=version_help,
+        callback=version_callback,
+        is_eager=True,
+    ),
+)
+
+# The handling for the --brokers option.
+root_brokers_cmd = typer.Option(
+    help="Bootstrap (broker) host:port",
+)
+
+# The handling for the --client-id option.
+root_client_id_cmd = (
+    typer.Option(
+        help="The user agent, recorded in backend kafka logs.",
+    ),
+)
+
+# The handling for the --verbose option.
+root_verbose_cmd = typer.Option("--verbose", help="Output verbosely.")
+
+
+@app.callback(help=root_help)
 def main(
     ctx: typer.Context,
-    version: Annotated[
-        bool,
-        typer.Option(
-            "--version", help="Prints the installed version and exits.", callback=version_callback, is_eager=True
-        ),
-    ] = False,
-    brokers: Annotated[typing.List[str], typer.Option(help="Bootstrap (broker) host:port")] = ["localhost:9092"],
-    client_id: Annotated[str, typer.Option(help="The user agent, recorded in backend kafka logs.")] = "kafkapy",
-    verbose: Annotated[bool, typer.Option(help="Enable verbose output.")] = False,
+    version: Annotated[bool, root_version_cmd] = False,
+    brokers: Annotated[typing.List[str], root_brokers_cmd] = ["localhost:9092"],
+    client_id: Annotated[str, root_client_id_cmd] = "kafkapy",
+    verbose: Annotated[bool, root_verbose_cmd] = False,
 ) -> None:
     cfg = Configuration(brokers=brokers, client_id=client_id, verbose=verbose)
     try:

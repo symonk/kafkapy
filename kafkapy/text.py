@@ -1,11 +1,12 @@
 import typing
 
+
 class Text:
     """Represents some renderable text."""
 
     def __init__(self, text: str) -> None:
         self.text = text
-    
+
     def render(self) -> str:
         return self.text
 
@@ -22,19 +23,21 @@ class BoldText(Text):
 
 class ItalicText(Text):
     """Wraps the text in italic."""
+
     def __init__(self, wrapped: Text) -> None:
         self._wrapped = wrapped
-    
+
     def render(self) -> str:
         return f"[italic]{self._wrapped.render()}[/italic]"
 
 
 class ColouredText(Text):
     """Wraps the text in a particular colour."""
+
     def __init__(self, wrapped: Text, colour: str) -> None:
         self._wrapped = wrapped
         self.colour = colour
-    
+
     def render(self) -> str:
         return f"[{self.colour}]{self._wrapped.render()}[/{self.colour}]"
 
