@@ -22,29 +22,23 @@ app.add_typer(acls, name="access-controls")
 app.add_typer(brokers, name="brokers")
 
 
-version_help = "test"
-root_help = ":star2: [green][bold]Kafkapy Loaded.[/][/] [b]Homepage: [b][link=https://www.github.com/symonk/kafkapy]https://github.com/symonk/kafkapy[/link][/]"
+VERSION_OPTION_HELP: typing.Final[
+    str
+] = "[white][b]Print the installed version and exit.[/][/]"
+CLIENT_ID_OPTION_HELP: typing.Final[str] = ""
+root_help = ":star2: [green][bold]Kafkapy Loaded.[/][/] [b]Homepage: [green][b][link=https://www.github.com/symonk/kafkapy]https://github.com/symonk/kafkapy[/link][/][/]"
 
 # The handling for the  --version option.
-root_version_cmd = (
-    typer.Option(
-        "--version",
-        help=version_help,
-        callback=version_callback,
-        is_eager=True,
-    ),
+root_version_cmd = typer.Option(
+    "--version", help=VERSION_OPTION_HELP, callback=version_callback, is_eager=True
 )
 
 # The handling for the --brokers option.
-root_brokers_cmd = typer.Option(
-    help="[b][white]The list of available brokers[/][/]",
-)
+root_brokers_cmd = typer.Option(help="[b][white]The list of available brokers.[/][/]")
 
 # The handling for the --client-id option.
-root_client_id_cmd = (
-    typer.Option(
-        help="The user agent, recorded in backend kafka logs.",
-    ),
+root_client_id_cmd = typer.Option(
+    "--client-id", help="The user agents for backend log referencing."
 )
 
 # The handling for the --verbose option.
@@ -63,7 +57,9 @@ def main(
     try:
         client = KafkaClient(brokers=cfg.brokers, client_id=cfg.client_id)
     except KafkaError as err:
-        rich.print(f"[red][bold]{err.__class__.__name__}[/red][/bold](0 brokers reachable for: {cfg.brokers}).")
+        rich.print(
+            f"[red][bold]{err.__class__.__name__}[/red][/bold](0 brokers reachable for: {cfg.brokers})."
+        )
         raise typer.Exit(code=1)
 
     ctx.obj = client

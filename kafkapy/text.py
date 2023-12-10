@@ -42,7 +42,12 @@ class ColouredText(Text):
         return f"[{self.colour}]{self._wrapped.render()}[/{self.colour}]"
 
 
-def text_wrap(text: str, colour: typing.Optional[str] = None, bold: bool = False, italic: bool = False) -> str:
+def text_wrap(
+    text: str,
+    colour: typing.Optional[str] = None,
+    bold: bool = False,
+    italic: bool = False,
+) -> str:
     """The entrypoint for generating various pieces of text."""
     tag = Text(text)
     if colour:

@@ -28,15 +28,21 @@ class KafkaClient:
     def broker_metadata(self) -> typing.Dict[typing.Any, typing.Any]:
         return self.metadata.brokers()
 
-    def get_broker_metadata(self, broker_id: int) -> typing.Dict[typing.Any, typing.Any]:
+    def get_broker_metadata(
+        self, broker_id: int
+    ) -> typing.Dict[typing.Any, typing.Any]:
         return self.metadata.broker_metadata(broker_id)
 
-    def get_partitions_for_broker(self, broker_id: int) -> typing.Dict[typing.Any, typing.Any]:
+    def get_partitions_for_broker(
+        self, broker_id: int
+    ) -> typing.Dict[typing.Any, typing.Any]:
         return self.metadata.partitions_for_broker(broker_id)
 
     def initialize_client(self) -> KafkaAdminClient:
         """Initialize the client."""
-        return KafkaAdminClient(**{"bootstrap_servers": self.bootstrap_servers, "client_id": self.client_id})
+        return KafkaAdminClient(
+            **{"bootstrap_servers": self.bootstrap_servers, "client_id": self.client_id}
+        )
 
     def close(self) -> None:
         """Close the underlying client."""
@@ -53,9 +59,15 @@ class KafkaClient:
     ) -> typing.Optional[bool]:
         self.close()
 
-    def retrieve_topics(self, include_internal_topics: bool) -> typing.Dict[typing.Any, typing.Any]:
-        topics = self.metadata.topics(exclude_internal_topics=not include_internal_topics)
+    def retrieve_topics(
+        self, include_internal_topics: bool
+    ) -> typing.Dict[typing.Any, typing.Any]:
+        topics = self.metadata.topics(
+            exclude_internal_topics=not include_internal_topics
+        )
         return topics
 
-    def retrieve_topic_partitions(self, topic: str) -> typing.Dict[typing.Any, typing.Any]:
+    def retrieve_topic_partitions(
+        self, topic: str
+    ) -> typing.Dict[typing.Any, typing.Any]:
         return self.metadata.partitions_for_topic(topic)
