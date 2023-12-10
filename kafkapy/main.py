@@ -1,10 +1,10 @@
 import typer
 import typing
-from kafkapy.topics import topics_app
-from kafkapy.consumer_groups import consumer_groups_app
-from kafkapy.brokers import brokers_app
+from kafkapy.topics import topics
+from kafkapy.consumer_groups import consumers
+from kafkapy.brokers import brokers
 from typing_extensions import Annotated
-from kafkapy.acls import acls_app
+from kafkapy.acls import acls
 from kafkapy.config import Configuration
 from kafkapy.callbacks import version_callback
 from kafkapy.client import KafkaClient
@@ -12,10 +12,10 @@ from kafka.errors import KafkaError
 import rich
 
 app = typer.Typer(help="Python CLI for managing kafka clusters.", rich_markup_mode="rich")
-app.add_typer(topics_app, name="topics")
-app.add_typer(consumer_groups_app, name="consumer-groups")
-app.add_typer(acls_app, name="access-controls")
-app.add_typer(brokers_app, name="brokers")
+app.add_typer(topics, name="topics")
+app.add_typer(consumers, name="consumer-groups")
+app.add_typer(acls, name="access-controls")
+app.add_typer(brokers, name="brokers")
 
 
 version_help = "test"

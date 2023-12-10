@@ -4,14 +4,14 @@ import sys
 from typing import Annotated
 import rich
 
-brokers_app = typer.Typer(
+brokers = typer.Typer(
     help=":star2: [green][bold]Broker Inspection & Management[/green][/bold]", rich_markup_mode="rich"
 )
 
 brokers_id_opt = typer.Option("--broker-id", help="The broker ID to check")
 
 
-@brokers_app.command()
+@brokers.command()
 def list_all(ctx: typer.Context) -> None:
     """:star2: [white][b]List all available brokers and exit.[/b][/white]"""
     client: KafkaClient = ctx.obj
@@ -19,7 +19,7 @@ def list_all(ctx: typer.Context) -> None:
     rich.print(broker_data)
 
 
-@brokers_app.command()
+@brokers.command()
 def list(ctx: typer.Context, broker_id: Annotated[str, brokers_id_opt]):
     """:star2: [white][b]Retrieve information for the given broker id[/b][/white]"""
     client: KafkaClient = ctx.obj
@@ -30,7 +30,7 @@ def list(ctx: typer.Context, broker_id: Annotated[str, brokers_id_opt]):
     rich.print(broker_data)
 
 
-@brokers_app.command()
+@brokers.command()
 def lead_partitions(
     ctx: typer.Context,
     broker_id: Annotated[str, brokers_id_opt],

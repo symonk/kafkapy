@@ -1,4 +1,6 @@
+from __future__ import annotations
 import typing
+import types
 from kafka import KafkaAdminClient
 from kafka.cluster import ClusterMetadata
 
@@ -41,13 +43,20 @@ class KafkaClient:
         """Close the underlying client."""
         self.client.close()
 
-    # Todo: Implement ctx mgr protocol.
-    def __enter__(self):
-        ...
+    def __enter__(self) -> KafkaClient:
+        return self
 
-    def __exit__(self):
+    def __exit__(
+        self,
+        exc_type: typing.Optional[typing.Type[BaseException]] = None,
+        exc_value: typing.Optional[BaseException] = None,
+        traceback: typing.Optional[types.TracebackType] = None,
+    ) -> typing.Optional[bool]:
         self.close()
 
     def retrieve_topics(self, include_internal_topics: bool) -> typing.Dict[typing.Any, typing.Any]:
         topics = self.metadata.topics(exclude_internal_topics=not include_internal_topics)
         return topics
+
+    def retrieve_topic_partitions(self, topic: str) -> typing.Dict[typing.Any, typing.Any]:
+        return self.metadata.partitions_for_topic(topic)
