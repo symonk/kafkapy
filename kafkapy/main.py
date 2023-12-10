@@ -11,7 +11,11 @@ from kafkapy.client import KafkaClient
 from kafka.errors import KafkaError
 import rich
 
-app = typer.Typer(help="Python CLI for managing kafka clusters.", rich_markup_mode="rich")
+app = typer.Typer(
+    help="Python CLI for managing kafka clusters.",
+    rich_markup_mode="rich",
+    context_settings={"help_option_names": ["-h", "--help"]},
+)
 app.add_typer(topics, name="topics")
 app.add_typer(consumers, name="consumer-groups")
 app.add_typer(acls, name="access-controls")
@@ -19,7 +23,7 @@ app.add_typer(brokers, name="brokers")
 
 
 version_help = "test"
-root_help = ":star2: [green][bold]Kafkapy loaded.[/green]  See available arguments and subcommands below.[/bold]"
+root_help = ":star2: [green][bold]Kafkapy Loaded.[/][/] [b]Homepage: [b][link=https://www.github.com/symonk/kafkapy]https://github.com/symonk/kafkapy[/link][/]"
 
 # The handling for the  --version option.
 root_version_cmd = (
@@ -33,7 +37,7 @@ root_version_cmd = (
 
 # The handling for the --brokers option.
 root_brokers_cmd = typer.Option(
-    help="[b][white]The list of available brokers[/b][/white]",
+    help="[b][white]The list of available brokers[/][/]",
 )
 
 # The handling for the --client-id option.
