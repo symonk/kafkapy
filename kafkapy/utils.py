@@ -2,7 +2,7 @@ from kafkapy.client import KafkaPyClient
 from kafkapy.config import Configuration
 import typing
 from kafkapy.out import die
-from kafka.errors import KafkaError
+from confluent_kafka.error import KafkaError
 import typer
 
 

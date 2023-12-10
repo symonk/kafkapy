@@ -1,6 +1,7 @@
 import typer
 import typing
 from kafkapy.topics import topics
+import pathlib
 from kafkapy.consumer_groups import consumers
 from kafkapy.brokers import brokers
 from typing_extensions import Annotated
@@ -42,12 +43,18 @@ root_client_id_cmd = typer.Option(
 # The handling for the --verbose option.
 root_verbose_cmd = typer.Option("--verbose", help="Output verbosely.")
 
+root_client_config = typer.Option(
+    "--client-config-file",
+    help="The .yaml file to use for client instantiation, overrides other flags.",
+)
+
 
 @app.callback(help=root_help)
 def main(
     ctx: typer.Context,
     version: Annotated[bool, root_version_cmd] = False,
     brokers: Annotated[typing.List[str], root_brokers_cmd] = ["localhost:9092"],
+    client_config_file: Annotated[pathlib.Path, root_client_config] = "",
     client_id: Annotated[str, root_client_id_cmd] = "kafkapy",
     verbose: Annotated[bool, root_verbose_cmd] = False,
 ) -> None:
