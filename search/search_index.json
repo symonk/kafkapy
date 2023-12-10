@@ -1,0 +1,1 @@
+{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"","title":"Welcome to the documentation for <code>Kafkapy</code>.","text":""},{"location":"#quick-start","title":"Quick Start","text":"<p><code>Kafkapy</code> can be installed with pip:</p> <pre><code>pip install kafkapy\n</code></pre>"}]}
