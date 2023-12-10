@@ -1,13 +1,13 @@
 import typer
 from typing import Annotated
-from kafkapy.text import in_white
-from client import KafkaClient
+from kafkapy.text import text_wrap
+from kafkapy.client import KafkaClient
 import rich
 
 topics_app = typer.Typer(help="Manage Topics")
 
 
-@topics_app.command(rich_help_panel=in_white("Topic Inspection & Management :snake:"))
+@topics_app.command(rich_help_panel=text_wrap("Topic Inspection & Management :snake:"))
 def list(
     ctx: typer.Context,
     include_internal: Annotated[

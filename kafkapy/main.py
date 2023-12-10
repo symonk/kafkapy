@@ -1,14 +1,14 @@
 import typer
 import typing
-from topics import topics_app
-from partitions import partitions_app
-from consumer_groups import consumer_groups_app
-from brokers import brokers_app
+from kafkapy.topics import topics_app
+from kafkapy.partitions import partitions_app
+from kafkapy.consumer_groups import consumer_groups_app
+from kafkapy.brokers import brokers_app
 from typing_extensions import Annotated
-from acls import acls_app
-from config import Configuration
-from callbacks import version_callback
-from client import KafkaClient
+from kafkapy.acls import acls_app
+from kafkapy.config import Configuration
+from kafkapy.callbacks import version_callback
+from kafkapy.client import KafkaClient
 from kafka.errors import KafkaError
 import rich
 

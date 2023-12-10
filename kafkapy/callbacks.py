@@ -1,7 +1,7 @@
 from rich import print
 import typer
-from __version__ import __version__
-from constants import LibraryMeta
+from kafkapy.__version__ import __version__
+from kafkapy.constants import LibraryMeta
 
 
 def version_callback(value: bool) -> str:

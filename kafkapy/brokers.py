@@ -1,13 +1,13 @@
 import typer
-from kafkapy.text import in_white
-from client import KafkaClient
+from kafkapy.text import text_wrap
+from kafkapy.client import KafkaClient
 from typing import Annotated
 import rich
 
 brokers_app = typer.Typer(help="Manage Brokers")
 
 
-@brokers_app.command(rich_help_panel=in_white("Topic Inspection & Management :snake:"))
+@brokers_app.command(rich_help_panel=text_wrap("Topic Inspection & Management :snake:"))
 def list_all(ctx: typer.Context) -> None:
     """[blue]List all available brokers and exit.[/blue]"""
     client: KafkaClient = ctx.obj

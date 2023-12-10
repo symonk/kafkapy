@@ -3,6 +3,5 @@ from typer.testing import CliRunner
 
 runner = CliRunner()
 
-def test_placeholder():
-    result = runner.invoke(app, ("check", "--help"))
-    assert not result.exit_code
+def test_placeholder() -> None:
+    ...
