@@ -4,13 +4,8 @@ from kafkapy.client import KafkaClient
 import rich
 
 topics_app = typer.Typer(
-    help=":star: [green][bold]Topic Inspection & Management[/green][/bold]", rich_markup_mode="rich"
+    help=":star2: [green][bold]Topic Inspection & Management[/green][/bold]", rich_markup_mode="rich"
 )
-
-# Options for topics?
-# Get the set of known topics
-# Create topics
-# Delete topics
 
 topics_list_option = typer.Option("--include-internal", help="Display [i]internal[/i] topics in the output.")
 

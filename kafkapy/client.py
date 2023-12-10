@@ -28,10 +28,7 @@ class KafkaClient:
         return self.metadata.brokers()
 
     def get_broker_metadata(self, broker_id: int) -> typing.Dict[typing.Any, typing.Any]:
-        data = self.metadata.broker_metadata(broker_id)
-        if data is None:
-            raise ValueError(f"No broker data for broker: {broker_id}.")
-        return data
+        return self.metadata.broker_metadata(broker_id)
 
     def initialize_client(self) -> KafkaAdminClient:
         """Initialize the client."""

@@ -19,7 +19,7 @@ app.add_typer(brokers_app, name="brokers")
 
 
 version_help = "test"
-root_help = ":star: [green][bold]Kafkapy loaded.[/green]  See available arguments and subcommands below.[/bold]"
+root_help = ":star2: [green][bold]Kafkapy loaded.[/green]  See available arguments and subcommands below.[/bold]"
 
 # The handling for the  --version option.
 root_version_cmd = (
@@ -33,7 +33,7 @@ root_version_cmd = (
 
 # The handling for the --brokers option.
 root_brokers_cmd = typer.Option(
-    help="Bootstrap (broker) host:port",
+    help="[b][white]The list of available brokers[/b][/white]",
 )
 
 # The handling for the --client-id option.
