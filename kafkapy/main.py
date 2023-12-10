@@ -1,7 +1,6 @@
 import typer
 import typing
 from kafkapy.topics import topics_app
-from kafkapy.partitions import partitions_app
 from kafkapy.consumer_groups import consumer_groups_app
 from kafkapy.brokers import brokers_app
 from typing_extensions import Annotated
@@ -14,7 +13,6 @@ import rich
 
 app = typer.Typer(help="Python CLI for managing kafka clusters.", rich_markup_mode="rich")
 app.add_typer(topics_app, name="topics")
-app.add_typer(partitions_app, name="partitions")
 app.add_typer(consumer_groups_app, name="consumer-groups")
 app.add_typer(acls_app, name="access-controls")
 app.add_typer(brokers_app, name="brokers")

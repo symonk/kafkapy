@@ -9,7 +9,8 @@ topics_app = typer.Typer(
 
 # Options for topics?
 # Get the set of known topics
-#
+# Create topics
+# Delete topics
 
 topics_list_option = typer.Option("--include-internal", help="Display [i]internal[/i] topics in the output.")
 
@@ -23,6 +24,11 @@ def list(
     client: KafkaClient = ctx.obj
     topics = client.retrieve_topics(include_internal_topics=include_internal)
     rich.print(topics)
+
+
+@topics_app.command()
+def delete():
+    ...
 
 
 @topics_app.command()
