@@ -25,12 +25,14 @@ class KafkaClient:
         self.client = self.initialize_client()
         self.metadata = ClusterMetadata(**{"bootstrap_servers": self.bootstrap_servers})
 
-    def broker_metadata(self) -> typing.Dict[typing.Any, typing.Any]:
+    def fetch_all_brokers_metadata(self) -> typing.Set:
+        """Fetches the meta data for every broker in the cluster."""
         return self.metadata.brokers()
 
-    def get_broker_metadata(
+    def fetch_broker_metadata(
         self, broker_id: int
     ) -> typing.Dict[typing.Any, typing.Any]:
+        """Fetch meta data for a particular broker in the cluster."""
         return self.metadata.broker_metadata(broker_id)
 
     def get_partitions_for_broker(

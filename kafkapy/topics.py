@@ -1,7 +1,7 @@
 import typer
 from typing_extensions import Annotated
 from kafkapy.deco import set_cmd_description
-from kafkapy.client import KafkaClient
+from kafkapy.utils import client_from_context
 from kafkapy.constants import CommandDescriptions, AppHelp
 import rich
 
@@ -17,7 +17,7 @@ topics_list_option = typer.Option(
 def list(
     ctx: typer.Context, include_internal: Annotated[bool, topics_list_option] = False
 ) -> None:
-    client: KafkaClient = ctx.obj
+    client = client_from_context(ctx)
     topics = client.retrieve_topics(include_internal_topics=include_internal)
     rich.print(topics)
 
@@ -27,7 +27,7 @@ def list(
 def partitions(
     ctx: typer.Context, topic: Annotated[str, typer.Option(help="The topic to lookup")]
 ) -> None:
-    client: KafkaClient = ctx.obj
+    client = client_from_context(ctx)
     partitions = client.retrieve_topic_partitions(topic)
     rich.print(partitions)
 
