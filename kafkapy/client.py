@@ -30,6 +30,9 @@ class KafkaClient:
     def get_broker_metadata(self, broker_id: int) -> typing.Dict[typing.Any, typing.Any]:
         return self.metadata.broker_metadata(broker_id)
 
+    def get_partitions_for_broker(self, broker_id: int) -> typing.Dict[typing.Any, typing.Any]:
+        return self.metadata.partitions_for_broker(broker_id)
+
     def initialize_client(self) -> KafkaAdminClient:
         """Initialize the client."""
         return KafkaAdminClient(**{"bootstrap_servers": self.bootstrap_servers, "client_id": self.client_id})
