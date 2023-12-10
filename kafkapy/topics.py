@@ -1,6 +1,6 @@
 import typer
 from typing import Annotated
-from colors import in_white
+from kafkapy.text import in_white
 from client import KafkaClient
 import rich
 

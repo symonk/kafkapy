@@ -1,5 +1,5 @@
 import typer
-from colors import in_white
+from kafkapy.text import in_white
 from client import KafkaClient
 from typing import Annotated
 import rich
@@ -14,9 +14,9 @@ def list_all(ctx: typer.Context) -> None:
     broker_data = client.broker_metadata
     rich.print(broker_data)
 
+
 @brokers_app.command()
-def list(ctx: typer.Context,
-         broker_id: Annotated[str, typer.Option(help="The broker ID to check")]):
+def list(ctx: typer.Context, broker_id: Annotated[str, typer.Option(help="The broker ID to check")]):
     client: KafkaClient = ctx.obj
     broker_data = client.get_broker_metadata(broker_id)
     rich.print(broker_data)
