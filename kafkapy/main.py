@@ -6,8 +6,9 @@ from kafkapy.consumer_groups import consumers
 from kafkapy.brokers import brokers
 from typing_extensions import Annotated
 from kafkapy.acls import acls
-from kafkapy.config import Configuration
+from kafkapy.config import KafkaProtocolConfiguration
 from kafkapy.callbacks import version_callback
+from kafkapy.callbacks import load_properties
 from kafkapy.utils import client_from_context
 
 app = typer.Typer(
@@ -44,8 +45,9 @@ root_client_id_cmd = typer.Option(
 root_verbose_cmd = typer.Option("--verbose", help="Output verbosely.")
 
 root_client_config = typer.Option(
-    "--client-config-file",
+    "--properties",
     help="The .yaml file to use for client instantiation, overrides other flags.",
+    callback=load_properties,
 )
 
 
@@ -54,14 +56,18 @@ def main(
     ctx: typer.Context,
     version: Annotated[bool, root_version_cmd] = False,
     brokers: Annotated[typing.List[str], root_brokers_cmd] = ["localhost:9092"],
-    client_config_file: Annotated[pathlib.Path, root_client_config] = "",
+    properties_file: Annotated[pathlib.Path, root_client_config] = pathlib.Path(
+        "~/.kafkapy/properties.yaml"
+    ),
     client_id: Annotated[str, root_client_id_cmd] = "kafkapy",
     verbose: Annotated[bool, root_verbose_cmd] = False,
 ) -> None:
     """The main callback is responsible for handling reusable options that
     almost every subcommand requires.  It is also responsible for initializing
     a singleton client."""
-    cfg = Configuration(brokers=brokers, client_id=client_id, verbose=verbose)
+    cfg = KafkaProtocolConfiguration(
+        brokers=brokers, client_id=client_id, verbose=verbose
+    )
     client_from_context(ctx=ctx, config=cfg)
 
 

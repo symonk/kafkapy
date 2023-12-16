@@ -1,8 +1,20 @@
 from __future__ import annotations
 import typing
 import types
-from confluent_kafka.admin import AdminClient
+from confluent_kafka.admin import AdminClient as KafkaAdminClient
+import dataclasses
+from kafkapy.config import KafkaProtocolConfiguration
 from confluent_kafka.admin import ClusterMetadata
+
+
+class AdminClient(KafkaAdminClient):
+    """A Wrapper to interact with kafka resources.  This client
+    provides access to all the brokers and all the resource
+    types supported by the brokers.
+    """
+
+    def __init__(configuration: KafkaProtocolConfiguration):
+        super().__init__(**dataclasses.asdict(configuration))
 
 
 class KafkaPyClient:

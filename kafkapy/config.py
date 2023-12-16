@@ -1,11 +1,6 @@
-from dataclasses import dataclass
-import typing
+class KafkaProtocolConfiguration:
+    """An encapsulation of the librdkafka properties."""
 
-
-@dataclass
-class Configuration:
-    """The runtime configuration."""
-
-    brokers: typing.List[str]
-    client_id: str
-    verbose: bool
+    def __init__(self, properties) -> None:
+        for key, value in properties.items():
+            setattr(self, key, value)
