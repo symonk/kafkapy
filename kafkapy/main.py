@@ -5,10 +5,10 @@ import pathlib
 from kafkapy.consumer_groups import consumers
 from kafkapy.brokers import brokers
 from typing_extensions import Annotated
+from kafkapy.parsers import path_to_properties_converter
 from kafkapy.acls import acls
 from kafkapy.config import KafkaProtocolProperties
 from kafkapy.callbacks import version_callback
-from kafkapy.callbacks import load_properties
 from kafkapy.utils import client_from_context
 
 app = typer.Typer(
@@ -25,7 +25,6 @@ app.add_typer(brokers, name="brokers")
 VERSION_OPTION_HELP: typing.Final[
     str
 ] = "[white][b]Print the installed version and exit.[/][/]"
-CLIENT_ID_OPTION_HELP: typing.Final[str] = ""
 root_help = ":star2: [green][bold]Kafkapy Loaded.[/][/] [b]Homepage: [green][b][link=https://www.github.com/symonk/kafkapy]https://github.com/symonk/kafkapy[/link][/][/]"
 
 # The handling for the  --version option.
@@ -36,10 +35,6 @@ root_version_cmd = typer.Option(
 # The handling for the --brokers option.
 root_brokers_cmd = typer.Option(help="[b][white]The list of available brokers.[/][/]")
 
-# The handling for the --client-id option.
-root_client_id_cmd = typer.Option(
-    "--client-id", help="The user agents for backend log referencing."
-)
 
 # The handling for the --verbose option.
 root_verbose_cmd = typer.Option("--verbose", help="Output verbosely.")
@@ -47,7 +42,7 @@ root_verbose_cmd = typer.Option("--verbose", help="Output verbosely.")
 root_client_config = typer.Option(
     "--properties",
     help="The .yaml file to use for client instantiation, overrides other flags.",
-    callback=load_properties,
+    parser=path_to_properties_converter,
 )
 
 
@@ -56,17 +51,15 @@ def main(
     ctx: typer.Context,
     version: Annotated[bool, root_version_cmd] = False,
     brokers: Annotated[typing.List[str], root_brokers_cmd] = ["localhost:9092"],
-    properties_file: Annotated[pathlib.Path, root_client_config] = pathlib.Path(
-        "~/.kafkapy/properties.yaml"
-    ),
-    client_id: Annotated[str, root_client_id_cmd] = "kafkapy",
+    properties_file: Annotated[
+        KafkaProtocolProperties, root_client_config
+    ] = pathlib.Path("~/.kafkapy/properties.yaml"),
     verbose: Annotated[bool, root_verbose_cmd] = False,
 ) -> None:
     """The main callback is responsible for handling reusable options that
     almost every subcommand requires.  It is also responsible for initializing
     a singleton client."""
-    cfg = KafkaProtocolProperties(brokers=brokers, client_id=client_id, verbose=verbose)
-    client_from_context(ctx=ctx, config=cfg)
+    client_from_context(ctx=ctx, config=properties_file)
 
 
 if __name__ == "__main__":
