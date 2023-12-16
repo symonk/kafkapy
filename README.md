@@ -11,4 +11,11 @@ Create a `kafkapy.yaml` file, by default `kafkapy` will look in `~/.kafkapy/prop
 provided via `--properties`.  This file should set any of the properties you wish to pass on to the underlying
 `librdkafka` library options.
 
+For a full properties reference, see the following:
+
+`https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md`
+
+
 -----
+
+## Contributing
