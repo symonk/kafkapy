@@ -59,7 +59,7 @@ def main(
     """The main callback is responsible for handling reusable options that
     almost every subcommand requires.  It is also responsible for initializing
     a singleton client."""
-    client_from_context(ctx=ctx, config=properties_file)
+    client_from_context(ctx=ctx, properties=properties_file)
 
 
 if __name__ == "__main__":

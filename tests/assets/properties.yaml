@@ -1,2 +1,2 @@
-bootstrap_servers: 'test:9092'
-client_id: 'testkafkapy'
+bootstrap.servers: 'test:9092'
+client.id: 'testkafkapy'

@@ -7,7 +7,7 @@ import typer
 
 
 def client_from_context(
-    ctx: typer.Context, config: typing.Optional[KafkaProtocolProperties] = None
+    ctx: typer.Context, properties: typing.Optional[KafkaProtocolProperties] = None
 ) -> KafkaPyClient:
     """Setup the client within the shared context for use throughout command
     invocations.  This is handled via the main callback.  If not client has
@@ -16,13 +16,14 @@ def client_from_context(
     :param ctx: The typer context object.
     :param config: (optional) kafkapy config object, required on initialization only."""
     if ctx.obj is None:
-        if config is None:
+        if properties is None:
             # Todo: Make this better..
             die(1, "Critical Error initializing client.")
         try:
-            client = KafkaPyClient(brokers=config.brokers, client_id=config.client_id)
+            client = KafkaPyClient(properties)
         except KafkaError as err:
             die(message=err, code=1)
         ctx.obj = client
+        return client
     else:
         return ctx.obj

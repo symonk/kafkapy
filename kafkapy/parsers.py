@@ -9,7 +9,7 @@ def path_to_properties_converter(path: str) -> KafkaProtocolProperties:
     class with the file, or assume a sensible default."""
     path = pathlib.Path(path)
     default_props = KafkaProtocolProperties(
-        {"bootstrap_servers": "localhost:9092", "client_id": "kafkapy"}
+        {"bootstrap.servers": "localhost:9092", "client.id": "kafkapy"}
     )
     if path.exists:
         try:
