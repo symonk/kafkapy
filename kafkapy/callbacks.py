@@ -2,8 +2,8 @@ from rich import print
 import typer
 import yaml
 import pathlib
-import io
-from kafkapy.config import KafkaProtocolConfiguration
+import rich
+from kafkapy.config import KafkaProtocolProperties
 from kafkapy.__version__ import __version__
 from kafkapy.constants import LibraryMeta
 
@@ -17,13 +17,21 @@ def version_callback(value: bool) -> str:
         raise typer.Exit(code=0)
 
 
-def load_properties(value: pathlib.Path) -> KafkaProtocolConfiguration:
+def load_properties(path: pathlib.Path) -> KafkaProtocolProperties:
     """Attempt to (safely) load the resolved .yaml file provided and
     shovel it into the configuration object."""
-    if value.exists:
+    default_props = KafkaProtocolProperties(
+        {"bootstrap_servers": "localhost:9092", "client_id": "kafkapy"}
+    )
+    if path.exists:
         try:
-            with io.open(value, "w", encoding="utf-8") as outfile:
-                properties = yaml.safe_dump(outfile)
-                return KafkaProtocolConfiguration(properties)
-        except Exception:  # Todo: Dont catch wide exceptions
-            return KafkaProtocolConfiguration({})
+            with path.open(mode="r") as outfile:
+                properties = yaml.safe_load(outfile.read())
+                return KafkaProtocolProperties(properties)
+        except Exception as exc:  # Todo: Dont catch wide exceptions
+            rich.print(
+                "kafkapy had trouble parsing the properties file, using defaults because: ",
+                exc,
+            )
+            return default_props
+    return default_props

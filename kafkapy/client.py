@@ -3,7 +3,7 @@ import typing
 import types
 from confluent_kafka.admin import AdminClient as KafkaAdminClient
 import dataclasses
-from kafkapy.config import KafkaProtocolConfiguration
+from kafkapy.config import KafkaProtocolProperties
 from confluent_kafka.admin import ClusterMetadata
 
 
@@ -13,7 +13,7 @@ class AdminClient(KafkaAdminClient):
     types supported by the brokers.
     """
 
-    def __init__(configuration: KafkaProtocolConfiguration):
+    def __init__(configuration: KafkaProtocolProperties):
         super().__init__(**dataclasses.asdict(configuration))
 
 

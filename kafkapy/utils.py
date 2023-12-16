@@ -1,5 +1,5 @@
 from kafkapy.client import KafkaPyClient
-from kafkapy.config import KafkaProtocolConfiguration
+from kafkapy.config import KafkaProtocolProperties
 import typing
 from kafkapy.out import die
 from confluent_kafka.error import KafkaError
@@ -7,7 +7,7 @@ import typer
 
 
 def client_from_context(
-    ctx: typer.Context, config: typing.Optional[KafkaProtocolConfiguration] = None
+    ctx: typer.Context, config: typing.Optional[KafkaProtocolProperties] = None
 ) -> KafkaPyClient:
     """Setup the client within the shared context for use throughout command
     invocations.  This is handled via the main callback.  If not client has

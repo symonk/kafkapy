@@ -6,7 +6,7 @@ from kafkapy.consumer_groups import consumers
 from kafkapy.brokers import brokers
 from typing_extensions import Annotated
 from kafkapy.acls import acls
-from kafkapy.config import KafkaProtocolConfiguration
+from kafkapy.config import KafkaProtocolProperties
 from kafkapy.callbacks import version_callback
 from kafkapy.callbacks import load_properties
 from kafkapy.utils import client_from_context
@@ -65,9 +65,7 @@ def main(
     """The main callback is responsible for handling reusable options that
     almost every subcommand requires.  It is also responsible for initializing
     a singleton client."""
-    cfg = KafkaProtocolConfiguration(
-        brokers=brokers, client_id=client_id, verbose=verbose
-    )
+    cfg = KafkaProtocolProperties(brokers=brokers, client_id=client_id, verbose=verbose)
     client_from_context(ctx=ctx, config=cfg)
 
 
