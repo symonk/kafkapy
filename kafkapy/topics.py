@@ -21,7 +21,7 @@ def list(
     ctx: typer.Context, include_internal: Annotated[bool, topics_list_option] = False
 ) -> None:
     client = client_from_context(ctx)
-    topics = client.retrieve_topics(include_internal_topics=include_internal)
+    topics = client.list_topics(include_internal_topics=include_internal)
     rich.print(topics)
 
 
