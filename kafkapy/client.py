@@ -1,6 +1,5 @@
 from __future__ import annotations
 from confluent_kafka.admin import AdminClient
-import dataclasses
 from kafkapy.config import KafkaProtocolProperties
 
 
@@ -11,4 +10,4 @@ class KafkaPyClient(AdminClient):
     """
 
     def __init__(self, configuration: KafkaProtocolProperties):
-        super().__init__(**dataclasses.asdict(configuration))
+        super().__init__(configuration.as_dict())
