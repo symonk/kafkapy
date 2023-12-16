@@ -13,7 +13,7 @@ provided via `--properties`.  This file should set any of the properties you wis
 
 For a full properties reference, see the following:
 
-`https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md`
+(librdkafka properties)[https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md]
 
 
 -----
