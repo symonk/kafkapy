@@ -4,7 +4,6 @@ from kafkapy.constants import LibraryMeta
 from kafkapy.topics import topics
 from kafkapy.consumer_groups import consumers
 from kafkapy.brokers import brokers
-from kafkapy.parsers import path_to_properties_converter
 from kafkapy.acls import acls
 from kafkapy.arg_opts import VERSION_OPTION
 
@@ -17,13 +16,6 @@ app.add_typer(topics)
 app.add_typer(consumers)
 app.add_typer(acls)
 app.add_typer(brokers)
-
-
-root_client_config = typer.Option(
-    "--properties",
-    help="The .yaml file to use for client instantiation, overrides other flags.",
-    parser=path_to_properties_converter,
-)
 
 
 root_help = f":star2: [green][bold]Kafkapy Loaded.[/][/] [b]Homepage: [green][b][link={LibraryMeta.URL}]{LibraryMeta.URL}[/link][/][/]"

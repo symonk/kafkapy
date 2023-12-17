@@ -15,6 +15,7 @@ def client_from_context(
 
     :param ctx: The typer context object.
     :param config: (optional) kafkapy config object, required on initialization only."""
+    return KafkaPyClient(properties)
     if ctx.obj is None:
         if properties is None:
             # Todo: Make this better..

@@ -1,7 +1,12 @@
 import typer
 from typing_extensions import Annotated
+import pathlib
 import typing
+from kafkapy.arg_opts import VERBOSE_OPTION, PROPERTIES_FILE_OPTION
+from kafkapy.config import KafkaProtocolProperties
+from kafkapy.arg_opts import BOOTSTRAP_SERVERS_OPTION
 from kafkapy.deco import set_cmd_description
+from kafkapy.constants import OptionDefaults
 from kafkapy.utils import client_from_context
 from kafkapy.constants import CommandDescriptions, AppHelp
 from kafkapy.out import write_out
@@ -19,39 +24,30 @@ topics = typer.Typer(
     rich_markup_mode="rich",
 )
 
-topics_list_option = typer.Option(
-    "--include-internal", help="Display [i]internal[/i] topics in the output."
-)
-
 topic_name_option = typer.Option(
     "--topic",
     help="The particular topic to lookup information of, all topics if not provided.",
 )
 
 timeout_seconds_option = typer.Option(
-    "--timeout", help="The maximum response time before timing out, forever by default"
+    "--timeout",
+    help="The maximum response time before timing out, forever by default",
 )
 
 
 @set_cmd_description(CommandDescriptions.TOPIC_VIEW)
 @topics.command()
 def list(
-    ctx: typer.Context,
+    bootstrap_servers: Annotated[
+        typing.List[str], BOOTSTRAP_SERVERS_OPTION
+    ] = OptionDefaults.LOCAL_KAFKA,
+    properties: Annotated[
+        KafkaProtocolProperties, PROPERTIES_FILE_OPTION
+    ] = pathlib.Path("~/.kafkapy/properties.yaml"),
+    verbose: Annotated[bool, VERBOSE_OPTION] = False,
     topic: Annotated[str, topic_name_option] = None,
     timeout: Annotated[int, timeout_seconds_option] = -1,
 ) -> None:
-    client = client_from_context(ctx)
+    client = client_from_context(None, properties=properties)
     topics = client.list_topics(topic=topic, timeout=timeout)
     write_out(topics.topics)
-
-
-@set_cmd_description(CommandDescriptions.TOPIC_DESCRIBE)
-@topics.command()
-def describe(
-    ctx: typer.Context,
-    topics: Annotated[typing.List[str], typer.Option("--topics")] = None,
-    timeout: Annotated[int, timeout_seconds_option] = 30_000,
-):
-    client = client_from_context(ctx)
-    topic_response = client.describe_topics()
-    write_out(topic_response)

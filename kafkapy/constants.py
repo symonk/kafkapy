@@ -60,5 +60,7 @@ class AppHelp:
     CONSUMER_GROUPS_DESCRIPTION = APP_NAME__TEMPLATE.format(app="Consumer Group")
 
 
-# Sub Commands
-CHECK_COMMAND_HELP = "[green][bold]CHECK COMMAND[/green][/bold]"
+class OptionDefaults:
+    """Defaults for reusable options."""
+
+    LOCAL_KAFKA = ["localhost:9092"]
