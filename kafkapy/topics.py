@@ -1,11 +1,10 @@
 import typer
 from typing_extensions import Annotated
+import typing
 from kafkapy.deco import set_cmd_description
 from kafkapy.utils import client_from_context
-from kafkapy.opts import timeout_ms_opt
 from kafkapy.constants import CommandDescriptions, AppHelp
-import rich
-
+from kafkapy.out import write_out
 
 # Todo:
 # list_topics
@@ -29,8 +28,6 @@ timeout_seconds_option = typer.Option(
     "--timeout", help="The maximum response time before timing out, forever by default"
 )
 
-topic_name_option = typer.Option("--name", help="The topic name to delete.")
-
 
 @set_cmd_description(CommandDescriptions.TOPIC_VIEW)
 @topics.command()
@@ -41,45 +38,16 @@ def list(
 ) -> None:
     client = client_from_context(ctx)
     topics = client.list_topics(topic=topic, timeout=timeout)
-    rich.print(topics.topics)
+    write_out(topics.topics)
 
 
-@set_cmd_description(CommandDescriptions.TOPIC_PARTITIONS)
+@set_cmd_description(CommandDescriptions.TOPIC_DESCRIBE)
 @topics.command()
-def partitions(
-    ctx: typer.Context, topic: Annotated[str, typer.Option(help="The topic to lookup")]
-) -> None:
-    client = client_from_context(ctx)
-    partitions = client.retrieve_topic_partitions(topic)
-    rich.print(partitions)
-
-
-@set_cmd_description(CommandDescriptions.TOPIC_DELETE)
-@topics.command()
-def delete(
+def describe(
     ctx: typer.Context,
-    name: Annotated[str, topic_name_option],
-    timeout_ms: Annotated[int, timeout_ms_opt] = 30_000,
-) -> None:
-    client = client_from_context(ctx)
-    response = client.delete_topic(name=name)
-    rich.print(response)
-
-
-@set_cmd_description(CommandDescriptions.TOPIC_DESTROY)
-@topics.command()
-def destroy(ctx: typer.Context):
-    client = client_from_context(ctx)
-    client.destroy_topics()
-
-
-@set_cmd_description(CommandDescriptions.TOPIC_CREATE)
-@topics.command()
-def create(
-    ctx: typer.Context,
-    validate_only: Annotated[
-        bool, typer.Option("--validate-only", help="Validate Only!")
-    ] = False,
+    topics: Annotated[typing.List[str], typer.Option("--topics")] = None,
+    timeout: Annotated[int, timeout_seconds_option] = 30_000,
 ):
     client = client_from_context(ctx)
-    client.create_topics("foo")
+    topic_response = client.describe_topics()
+    write_out(topic_response)

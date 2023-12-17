@@ -34,6 +34,7 @@ class CommandDescriptions:
     TOPIC_VIEW = CommandMeta(
         description="View the set of known topics, optionally including internal topics"
     )
+    TOPIC_DESCRIBE = CommandMeta(description="Describes the topics")
     TOPIC_PARTITIONS = CommandMeta(
         description="View the partitions this broker is a leader of"
     )
