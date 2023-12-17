@@ -1,0 +1,1 @@
+all = "__version__"
