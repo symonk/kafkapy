@@ -19,7 +19,7 @@ provided via `--properties`.  This file should set any of the properties you wis
 
 For a full properties reference, see the following:
 
-[https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md]
+View `librdkafka` properties [Here](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md)
 
 
 -----
