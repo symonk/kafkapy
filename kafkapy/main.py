@@ -47,7 +47,7 @@ root_client_config = typer.Option(
 
 
 @app.callback(help=root_help)
-def main(
+def root(
     ctx: typer.Context,
     version: Annotated[bool, root_version_cmd] = False,
     brokers: Annotated[typing.List[str], root_brokers_cmd] = ["localhost:9092"],
