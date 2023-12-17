@@ -6,10 +6,27 @@ from kafkapy.opts import timeout_ms_opt
 from kafkapy.constants import CommandDescriptions, AppHelp
 import rich
 
+
+# Todo:
+# list_topics
+# describe topics
+# create topics
+# delete topics
+
+
 topics = typer.Typer(help=AppHelp.TOPIC_DESCRIPTION, rich_markup_mode="rich")
 
 topics_list_option = typer.Option(
     "--include-internal", help="Display [i]internal[/i] topics in the output."
+)
+
+topic_name_option = typer.Option(
+    "--topic",
+    help="The particular topic to lookup information of, all topics if not provided.",
+)
+
+timeout_seconds_option = typer.Option(
+    "--timeout", help="The maximum response time before timing out, forever by default"
 )
 
 topic_name_option = typer.Option("--name", help="The topic name to delete.")
@@ -18,11 +35,13 @@ topic_name_option = typer.Option("--name", help="The topic name to delete.")
 @set_cmd_description(CommandDescriptions.TOPIC_VIEW)
 @topics.command()
 def list(
-    ctx: typer.Context, include_internal: Annotated[bool, topics_list_option] = False
+    ctx: typer.Context,
+    topic: Annotated[str, topic_name_option] = None,
+    timeout: Annotated[int, timeout_seconds_option] = -1,
 ) -> None:
     client = client_from_context(ctx)
-    topics = client.list_topics(include_internal_topics=include_internal)
-    rich.print(topics)
+    topics = client.list_topics(topic=topic, timeout=timeout)
+    rich.print(topics.topics)
 
 
 @set_cmd_description(CommandDescriptions.TOPIC_PARTITIONS)

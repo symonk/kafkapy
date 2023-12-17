@@ -3,18 +3,18 @@ from rich import print
 import sys
 
 
-def write_out(data: str):
+def write_out(data: str, *args, **kwargs):
     """Use rich to nicely print to stdout.
 
     :param data: The data to write out."""
-    print(data, file=sys.stdout)
+    print(data, *args, **kwargs, file=sys.stdout)
 
 
-def write_err(data: str):
+def write_err(data: str, *args, **kwargs):
     """Use rich to nicely print to stderr.
 
     :param data: The data to write out."""
-    print(data, file=sys.stderr)
+    print(data, *args, **kwargs, file=sys.stderr)
 
 
 def die(code: int, message: str) -> None:

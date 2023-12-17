@@ -1,7 +1,7 @@
 from kafkapy.config import KafkaProtocolProperties
+from kafkapy.out import write_err
 import pathlib
 import yaml
-import rich
 
 
 def path_to_properties_converter(path: str) -> KafkaProtocolProperties:
@@ -17,9 +17,6 @@ def path_to_properties_converter(path: str) -> KafkaProtocolProperties:
                 properties = yaml.safe_load(outfile.read())
                 return KafkaProtocolProperties(properties)
         except Exception as exc:  # Todo: Dont catch wide exceptions
-            rich.print(
-                "kafkapy had trouble parsing the properties file, using defaults because: ",
-                exc,
-            )
+            write_err("Falling back to using default settings because: ", exc)
             return default_props
     return default_props
