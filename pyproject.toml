@@ -38,7 +38,7 @@ mkdocstrings-python = "^1.7.5"
 pytest = "^7.4.3"
 tox = "^4.11.3"
 pip = "^23.3.1"
-coverage = "^7.3.2"
+coverage = "^7.3.3"
 towncrier = "^23.11.0"
 
 [tool.poetry.group.dev.dependencies]
