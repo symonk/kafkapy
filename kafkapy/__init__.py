@@ -1,1 +1,1 @@
-all = "__version__"
+all = ("__version__",)
