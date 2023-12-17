@@ -14,10 +14,12 @@ BOOTSTRAP_SERVERS_OPTION = typer.Option(
 
 VERSION_OPTION = typer.Option(
     "--version",
-    help="[white][b]Print the installed version and exit.[/][/]",
+    help="Print the installed version and exit.",
     callback=version_callback,
     is_eager=True,
 )
+
+VERBOSE_OPTION = typer.Option("--verbose", help="Output verbosely.")
 
 TIMEOUT_IN_SECONDS_OPTION = typer.Option(
     "--timeout-seconds",

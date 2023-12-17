@@ -7,6 +7,7 @@ class LibraryMeta:
     """Encapsulation of libary meta data."""
 
     NAME: str = "kafkapy"
+    URL: str = "https://www.github.com/symonk/kafkapy"
 
 
 class CommandMeta(NamedTuple):

@@ -1,5 +1,6 @@
 import typer
 import typing
+from kafkapy.constants import LibraryMeta
 from kafkapy.topics import topics
 from kafkapy.consumer_groups import consumers
 from kafkapy.brokers import brokers
@@ -18,20 +19,14 @@ app.add_typer(acls)
 app.add_typer(brokers)
 
 
-root_help = ":star2: [green][bold]Kafkapy Loaded.[/][/] [b]Homepage: [green][b][link=https://www.github.com/symonk/kafkapy]https://github.com/symonk/kafkapy[/link][/][/]"
-
-# The handling for the --brokers option.
-root_brokers_cmd = typer.Option(help="[b][white]The list of available brokers.[/][/]")
-
-
-# The handling for the --verbose option.
-root_verbose_cmd = typer.Option("--verbose", help="Output verbosely.")
-
 root_client_config = typer.Option(
     "--properties",
     help="The .yaml file to use for client instantiation, overrides other flags.",
     parser=path_to_properties_converter,
 )
+
+
+root_help = f":star2: [green][bold]Kafkapy Loaded.[/][/] [b]Homepage: [green][b][link={LibraryMeta.URL}]{LibraryMeta.URL}[/link][/][/]"
 
 
 @app.callback(help=root_help)
