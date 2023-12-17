@@ -1,4 +1,4 @@
-![Kafkapy](.github/images/logo.png)
+<img src="https://github.com/symonk/kafkapy/blob/main/.github/images/logo.png" border="1" width="275" height="275">
 
 ![version](https://img.shields.io/pypi/v/kafkapy?color=%2342f54b&label=&style=flat-square)
 [![codecov](https://codecov.io/gh/symonk/kafkapy/branch/main/graph/badge.svg)](https://codecov.io/gh/symonk/kafkapy)
