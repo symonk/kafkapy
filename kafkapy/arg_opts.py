@@ -8,7 +8,13 @@ import typer
 
 
 TIMEOUT_IN_SECONDS_OPTION = typer.Option(
-    "--timeout-seconds", help="The timeout, in seconds", default=30
+    "--timeout-seconds",
+    help="The timeout, in seconds",
+    default=30,
 )
 
-TOPIC_NAME_OPTION = typer.Option("--topic", help="The name of the topic", default=...)
+TOPIC_NAME_OPTION = typer.Option(
+    "--topic",
+    help="The name of the topic",
+    default=...,
+)
