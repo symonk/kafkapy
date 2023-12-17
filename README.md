@@ -1,3 +1,9 @@
+![Kafkapy](.github/images/logo.png)
+
+![version](https://img.shields.io/pypi/v/kafkapy?color=%2342f54b&label=&style=flat-square)
+[![codecov](https://codecov.io/gh/symonk/kafkapy/branch/main/graph/badge.svg)](https://codecov.io/gh/symonk/kafkapy)
+[![docs](https://img.shields.io/badge/documentation-online-brightgreen.svg)](https://symonk.github.io/kafkapy/)
+
 ###  Kafkapy
 
 Kafkapy is a python kafka administrative tool for managing brokers and other resources brokers manage such as
