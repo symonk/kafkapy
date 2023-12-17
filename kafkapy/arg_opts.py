@@ -3,18 +3,28 @@ is that options are typically optional and arguments are required.
 However, providing no default value for an option will also force
 it to the required.  Options denoted with an ellipsis default are
 also required."""
-
+from .callbacks import version_callback
 import typer
 
+
+BOOTSTRAP_SERVERS_OPTION = typer.Option(
+    "--bootstrap-servers",
+    help="The bootstrap servers, defaults to port 9092 if port is omitted from the connection information.",
+)
+
+VERSION_OPTION = typer.Option(
+    "--version",
+    help="[white][b]Print the installed version and exit.[/][/]",
+    callback=version_callback,
+    is_eager=True,
+)
 
 TIMEOUT_IN_SECONDS_OPTION = typer.Option(
     "--timeout-seconds",
     help="The timeout, in seconds",
-    default=30,
 )
 
 TOPIC_NAME_OPTION = typer.Option(
     "--topic",
     help="The name of the topic",
-    default=...,
 )

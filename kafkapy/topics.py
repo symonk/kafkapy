@@ -13,7 +13,11 @@ from kafkapy.out import write_out
 # delete topics
 
 
-topics = typer.Typer(help=AppHelp.TOPIC_DESCRIPTION, rich_markup_mode="rich")
+topics = typer.Typer(
+    name="topics",
+    help=AppHelp.TOPIC_DESCRIPTION,
+    rich_markup_mode="rich",
+)
 
 topics_list_option = typer.Option(
     "--include-internal", help="Display [i]internal[/i] topics in the output."

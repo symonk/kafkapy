@@ -3,7 +3,9 @@ from kafkapy.constants import AppHelp
 
 
 consumers = typer.Typer(
-    help=AppHelp.CONSUMER_GROUPS_DESCRIPTION, rich_markup_mode="rich"
+    name="consumer-groups",
+    help=AppHelp.CONSUMER_GROUPS_DESCRIPTION,
+    rich_markup_mode="rich",
 )
 
 
