@@ -17,4 +17,18 @@ def version_callback(value: bool) -> str:
 def bootstrap_servers_callback(
     servers: BootstrapServersTypes,
 ) -> BootstrapServersSplitTypes:
-    ...
+    """Split the user provided bootstrap servers into appropriate host
+    and port for kafka broker connectivity.
+
+    :param servers: (Optional) list of colon delimited broker servers and their port."""
+    result = []
+    if not servers:
+        return result
+    for server in servers:
+        if server.count(":") > 1:
+            raise typer.BadParameter(
+                f"{server} can only contain at most a single colon ':'."
+            )
+        host, _, port = server.partition(":")
+        result.append((host, int(port)))
+    return result

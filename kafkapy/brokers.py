@@ -2,7 +2,7 @@ import typer
 from kafkapy.deco import set_cmd_description
 from kafkapy.constants import CommandDescriptions
 from kafkapy.utils import get_client
-from kafkapy.utils import die
+from .out import die
 from typing_extensions import Annotated
 from typing import List
 from kafkapy.constants import AppHelp

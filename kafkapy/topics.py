@@ -38,7 +38,7 @@ timeout_seconds_option = typer.Option(
 @topics.command()
 def list(
     bootstrap_servers: Annotated[
-        typing.Tuple[str], BOOTSTRAP_SERVERS_OPTION
+        typing.List[str], BOOTSTRAP_SERVERS_OPTION
     ] = OptionDefaults.LOCAL_KAFKA,
     properties: Annotated[
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION

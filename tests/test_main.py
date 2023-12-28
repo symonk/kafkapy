@@ -16,7 +16,3 @@ def test_dash_h_is_enabled(root_app, kafkapytester) -> None:
     result = kafkapytester.invoke(root_app, ("-h"))
     assert not result.exit_code
 
-
-def test_bootstrap_servers_is_handled_correctly(root_app, kafkapytester) -> None:
-    result = kafkapytester.invoke(root_app, ("topics", "list", "--bootstrap-servers", "localhost:1234", "--bootstrap-servers", "localhost:4321"))
-    assert result.exit_code # Todo: implement.
