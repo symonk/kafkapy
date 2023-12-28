@@ -12,7 +12,7 @@ all_bullets = true
 
 [tool.poetry]
 name = "kafkapy"
-version = "0.1.0"
+version = "0.2.0"
 description = "Python CLI for managing a kafka cluster" 
 authors = ["symonk <jackofspaces@gmail.com>"]
 readme = "README.md"

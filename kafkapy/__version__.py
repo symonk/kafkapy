@@ -1,1 +1,4 @@
-__version__ = "0.1.0"
+import pkg_resources
+from .constants import LibraryMeta
+
+__version__ = pkg_resources.get_distribution(LibraryMeta.NAME)
