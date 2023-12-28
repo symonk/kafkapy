@@ -1,5 +1,5 @@
 import typer
-import typing
+from typing_extensions import Annotated
 from kafkapy.constants import LibraryMeta
 from kafkapy.topics import topics
 from kafkapy.consumer_groups import consumers
@@ -23,7 +23,7 @@ root_help = f":star2: [green][bold]Kafkapy Loaded.[/][/] [b]Homepage: [green][b]
 
 @app.callback(help=root_help)
 def root(
-    version: typing.Annotated[bool, VERSION_OPTION] = False,
+    version: Annotated[bool, VERSION_OPTION] = False,
 ):
     """The core entrypoint point.  Responsible for basic app initialization
     and handling of commands that typically report and exit.  Right now this is
