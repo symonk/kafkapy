@@ -26,7 +26,10 @@ VERSION_OPTION = typer.Option(
     is_eager=True,
 )
 
-VERBOSE_OPTION = typer.Option("--verbose", help="Output verbosely.")
+VERBOSE_OPTION = typer.Option(
+    "--verbose",
+    help="Output verbosely.",
+)
 
 TIMEOUT_IN_SECONDS_OPTION = typer.Option(
     "--timeout-seconds",
