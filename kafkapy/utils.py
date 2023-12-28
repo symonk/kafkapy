@@ -1,13 +1,12 @@
 from kafkapy.client import KafkaPyClient
 from kafkapy.config import KafkaProtocolProperties
+from kafkapy.type import BootstrapServersTypes, BootstrapServersSplitTypes
 import typing
-from kafkapy.out import die
-from confluent_kafka.error import KafkaError
-import typer
 
 
-def client_from_context(
-    ctx: typer.Context, properties: typing.Optional[KafkaProtocolProperties] = None
+def get_client(
+    bootstrap_servers: typing.Optional[typing.Sequence[str]] = None,
+    properties: typing.Optional[KafkaProtocolProperties] = None,
 ) -> KafkaPyClient:
     """Setup the client within the shared context for use throughout command
     invocations.  This is handled via the main callback.  If not client has
@@ -16,15 +15,12 @@ def client_from_context(
     :param ctx: The typer context object.
     :param config: (optional) kafkapy config object, required on initialization only."""
     return KafkaPyClient(properties)
-    if ctx.obj is None:
-        if properties is None:
-            # Todo: Make this better..
-            die(1, "Critical Error initializing client.")
-        try:
-            client = KafkaPyClient(properties)
-        except KafkaError as err:
-            die(message=err, code=1)
-        ctx.obj = client
-        return client
-    else:
-        return ctx.obj
+
+
+def split_bootstrap_servers(
+    servers: BootstrapServersTypes,
+) -> BootstrapServersSplitTypes:
+    """Splits the provided bootstrap servers into a tuple of
+    (host, port) tuples.
+
+    :param servers: The user provided bootstrap servers."""

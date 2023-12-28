@@ -1,7 +1,7 @@
 import typer
 from kafkapy.deco import set_cmd_description
 from kafkapy.constants import CommandDescriptions
-from kafkapy.utils import client_from_context
+from kafkapy.utils import get_client
 from kafkapy.utils import die
 from typing_extensions import Annotated
 from typing import List
@@ -20,7 +20,7 @@ brokers_id_opt = typer.Option("--broker-id", help="The broker ID to check")
 @brokers.command()
 @set_cmd_description(CommandDescriptions.BROKER_LIST)
 def list(ctx: typer.Context, broker_ids: Annotated[List[str], brokers_id_opt] = None):
-    client = client_from_context(ctx)
+    client = get_client(ctx)
     if broker_ids:
         results = [client.fetch_broker_metadata(broker_id) for broker_id in broker_ids]
     else:
