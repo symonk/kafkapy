@@ -43,9 +43,9 @@ def list(
     properties: Annotated[
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
-    verbose: Annotated[bool, VERBOSE_OPTION] = False,
+    verbose: Annotated[bool, VERBOSE_OPTION] = False,  # Todo: no need for this (yet)
     topic: Annotated[str, topic_name_option] = None,
-    timeout: Annotated[int, timeout_seconds_option] = -1,
+    timeout: Annotated[int, timeout_seconds_option] = 30.00,
 ) -> None:
     client = get_client(bootstrap_servers=bootstrap_servers, properties=properties)
     topics = client.list_topics(topic=topic, timeout=timeout)
