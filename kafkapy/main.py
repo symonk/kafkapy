@@ -5,7 +5,7 @@ from kafkapy.topics import topics
 from kafkapy.consumer_groups import consumers
 from kafkapy.brokers import brokers
 from kafkapy.acls import acls
-from kafkapy.arg_opts import VERSION_OPTION
+from kafkapy.options import VERSION_OPTION
 
 app = typer.Typer(
     help="Python CLI for managing kafka clusters.",

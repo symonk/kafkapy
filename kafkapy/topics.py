@@ -2,9 +2,9 @@ import typer
 from typing_extensions import Annotated
 import pathlib
 import typing
-from kafkapy.arg_opts import VERBOSE_OPTION, PROPERTIES_FILE_OPTION
+from kafkapy.options import VERBOSE_OPTION, PROPERTIES_FILE_OPTION
 from kafkapy.config import KafkaProtocolProperties
-from kafkapy.arg_opts import BOOTSTRAP_SERVERS_OPTION
+from kafkapy.options import BOOTSTRAP_SERVERS_OPTION
 from kafkapy.deco import set_cmd_description
 from kafkapy.constants import OptionDefaults
 from kafkapy.utils import get_client
