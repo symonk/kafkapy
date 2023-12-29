@@ -1,4 +1,4 @@
-import pkg_resources
+from importlib import metadata
 from .constants import LibraryMeta
 
-__version__ = pkg_resources.get_distribution(LibraryMeta.NAME)
+__version__ = metadata.version(LibraryMeta.NAME)
