@@ -47,6 +47,6 @@ def list(
     topic: Annotated[str, topic_name_option] = None,
     timeout: Annotated[int, timeout_seconds_option] = -1,
 ) -> None:
-    client = get_client(None, properties=properties)
+    client = get_client(bootstrap_servers=bootstrap_servers, properties=properties)
     topics = client.list_topics(topic=topic, timeout=timeout)
     write_out(topics.topics)

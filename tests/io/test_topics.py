@@ -1,0 +1,13 @@
+
+
+def test_fetching_with_topic_is_successful() -> None:
+    ...
+
+def test_topic_is_required() -> None:
+    ...
+
+def test_timeout_is_not_required() -> None:
+    ...
+
+def test_unknown_topic_returns_error() -> None:
+    ...
