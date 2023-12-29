@@ -1,5 +1,7 @@
 from __future__ import annotations
+from dataclasses import dataclass
 from confluent_kafka.admin import AdminClient
+from confluent_kafka.error import KafkaException
 from kafkapy.properties import KafkaProtocolProperties
 import typing
 
@@ -22,16 +24,17 @@ class KafkaPyClient:
         self,
         topic: typing.Optional[str] = None,
         timeout: float = -1,
-    ) -> typing.List[TopicsResponse]:
+    ) -> typing.List[SerializableClusterMetaData]:
         """Fetch topic meta data from the cluster.
 
         :param topic: (Optional) topic name to fetch only the data for, otherwise fetches all topics.
         :param timeout: The timeout for read/connect operations to the cluster, defaults to infinite (-1).
         """
-        return self.client.list_topics(
+        response = self.client.list_topics(
             topic=topic,
             timeout=timeout,
         )
+        return response
 
     def __enter__(self) -> KafkaPyClient:
         """Allow the client to be used as a context."""
@@ -46,5 +49,19 @@ class KafkaPyClient:
         ...
 
 
-class TopicsResponse:
+@dataclass(frozen=True)
+class TopicMetadata:
+    """A Serializable piece of topic meta data."""
+
+    error: KafkaException
+    partitions: int
+    topic: str
+
+
+@dataclass(frozen=True)
+class SerializableClusterMetaData:
     """Json serializable topic meta data."""
+
+    brokers: typing.Dict
+    cluster_id: str
+    topics: typing.List[TopicMetadata]
