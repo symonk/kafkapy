@@ -1,8 +1,10 @@
 from kafkapy.client import KafkaPyClient
 from kafkapy.properties import KafkaProtocolProperties
 import typing
+from contextlib import contextmanager
 
 
+@contextmanager
 def get_client(
     properties: KafkaProtocolProperties,
     bootstrap_servers: typing.Optional[typing.Sequence[str]] = None,
@@ -16,4 +18,6 @@ def get_client(
     """
     if bootstrap_servers:
         properties["bootstrap.servers"] = ",".join(bootstrap_servers)
-    return KafkaPyClient(properties)
+    client = KafkaPyClient(properties)
+    yield client
+    client.close()

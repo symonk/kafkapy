@@ -10,6 +10,7 @@ from kafkapy.constants import OptionDefaults
 from kafkapy.utils import get_client
 from kafkapy.constants import CommandDescriptions, AppHelp
 from kafkapy.out import write_out
+from kafkapy.out import die, write_err
 
 # Todo:
 # describe topics
@@ -47,6 +48,21 @@ def list(
     topic: Annotated[str, topic_name_option] = None,
     timeout: Annotated[int, timeout_seconds_option] = -1,
 ) -> None:
-    client = get_client(properties=properties, bootstrap_servers=bootstrap_servers)
-    topics = client.list_topics(topic=topic, timeout=timeout)
-    write_out(topics.topics)
+    with get_client(
+        properties=properties, bootstrap_servers=bootstrap_servers
+    ) as client:
+        topics = client.list_topics(topic=topic, timeout=timeout)
+        exit_code = 0
+        success, failed = [], []
+        for name, meta_data in topics.topics.items():
+            if meta_data.error is not None:
+                failed.append({name: meta_data})
+                exit_code = 1
+            else:
+                success.append({name: meta_data})
+        if success:
+            write_out(success)
+        if failed:
+            write_err(failed)
+        if not exit_code:
+            die(exit_code, "")
