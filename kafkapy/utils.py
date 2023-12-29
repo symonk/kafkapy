@@ -1,26 +1,19 @@
 from kafkapy.client import KafkaPyClient
-from kafkapy.config import KafkaProtocolProperties
-from kafkapy.type_alias import BootstrapServersTypes, BootstrapServersSplitTypes
+from kafkapy.properties import KafkaProtocolProperties
 import typing
 
 
 def get_client(
+    properties: KafkaProtocolProperties,
     bootstrap_servers: typing.Optional[typing.Sequence[str]] = None,
-    properties: typing.Optional[KafkaProtocolProperties] = None,
 ) -> KafkaPyClient:
     """Setup the client within the shared context for use throughout command
     invocations.  This is handled via the main callback.  If not client has
     been set initially, this will create one and attach it to the context.
 
-    :param ctx: The typer context object.
-    :param config: (optional) kafkapy config object, required on initialization only."""
+    :param bootstrap_servers: (Optional) The sequence of broker host:port addresses.
+    :param properties: The properties object with librdkafka settings.
+    """
+    if bootstrap_servers:
+        properties["bootstrap.servers"] = ",".join(bootstrap_servers)
     return KafkaPyClient(properties)
-
-
-def split_bootstrap_servers(
-    servers: BootstrapServersTypes,
-) -> BootstrapServersSplitTypes:
-    """Splits the provided bootstrap servers into a tuple of
-    (host, port) tuples.
-
-    :param servers: The user provided bootstrap servers."""

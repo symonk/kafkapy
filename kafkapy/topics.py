@@ -3,7 +3,7 @@ from typing_extensions import Annotated
 import pathlib
 import typing
 from kafkapy.options import VERBOSE_OPTION, PROPERTIES_FILE_OPTION
-from kafkapy.config import KafkaProtocolProperties
+from kafkapy.properties import KafkaProtocolProperties
 from kafkapy.options import BOOTSTRAP_SERVERS_OPTION
 from kafkapy.deco import set_cmd_description
 from kafkapy.constants import OptionDefaults
@@ -45,8 +45,8 @@ def list(
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
     verbose: Annotated[bool, VERBOSE_OPTION] = False,  # Todo: no need for this (yet)
     topic: Annotated[str, topic_name_option] = None,
-    timeout: Annotated[int, timeout_seconds_option] = 30.00,
+    timeout: Annotated[int, timeout_seconds_option] = -1,
 ) -> None:
-    client = get_client(bootstrap_servers=bootstrap_servers, properties=properties)
+    client = get_client(properties=properties, bootstrap_servers=bootstrap_servers)
     topics = client.list_topics(topic=topic, timeout=timeout)
     write_out(topics.topics)

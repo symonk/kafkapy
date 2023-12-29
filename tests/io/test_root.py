@@ -1,5 +1,7 @@
 """Reusable tests shared by multiple commands."""
+import pytest
 
+pytestmark = pytest.mark.requires_io
 
 def test_omitted_bootstrap_servers_reads_from_config() -> None:
     ...

@@ -4,7 +4,6 @@ However, providing no default value for an option will also force
 it to the required.  Options denoted with an ellipsis default are
 also required."""
 from .callbacks import version_callback
-from .callbacks import bootstrap_servers_callback
 from .parsers import path_to_properties_converter
 import typer
 
@@ -12,7 +11,8 @@ import typer
 BOOTSTRAP_SERVERS_OPTION = typer.Option(
     "--bootstrap-servers",
     help="Kafka bootstrap servers, overrides properties if specified.",
-    callback=bootstrap_servers_callback,
+    # Todo: Improve validation here in future; but host/port is not necessary for librdkafka.
+    # callback=bootstrap_servers_callback,
 )
 
 PROPERTIES_FILE_OPTION = typer.Option(

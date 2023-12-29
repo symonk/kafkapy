@@ -1,15 +1,18 @@
-from kafkapy.config import KafkaProtocolProperties
+from kafkapy.properties import KafkaProtocolProperties
 from kafkapy.out import write_err
 import pathlib
 import typer
 import yaml
 
 
-def path_to_properties_converter(path: str) -> KafkaProtocolProperties:
+def path_to_properties_converter(
+    path: str,
+    use_default: bool = True,
+) -> KafkaProtocolProperties:
     """Given a path on the command line to a file, build the properties
     class with the file, or assume a sensible default."""
     safe_path = pathlib.Path(path)
-    if not safe_path.exists():
+    if not safe_path.exists() and use_default:
         # The user provided path does not exist on disk.
         # default to our own ~/.kafkapy/properties.yaml file
         safe_path = pathlib.Path().home() / ".kafkapy" / "properties.yaml"
