@@ -16,7 +16,7 @@ class KafkaPyClient:
         self,
         properties: KafkaProtocolProperties,
     ):
-        self.client = AdminClient(properties)
+        self.client = AdminClient(properties.data)
 
     def list_topics(
         self,
