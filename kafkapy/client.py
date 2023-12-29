@@ -1,6 +1,6 @@
 from __future__ import annotations
 from confluent_kafka.admin import AdminClient
-from kafkapy.config import KafkaProtocolProperties
+from kafkapy.properties import KafkaProtocolProperties
 
 
 class KafkaPyClient(AdminClient):

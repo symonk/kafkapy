@@ -2,7 +2,11 @@ import typing
 
 
 class KafkaProtocolProperties:
-    """An encapsulation of the librdkafka properties."""
+    """An encapsulation of the librdkafka properties.
+    # Todo: We need a smart way to handle librdkafka period naming
+    as their properties are period delimited, but in a python dict
+    that is quite problematic.
+    """
 
     def __init__(self, properties) -> None:
         self.internal_store = {}
