@@ -1,6 +1,6 @@
 from kafkapy.client import KafkaPyClient
 from kafkapy.config import KafkaProtocolProperties
-from kafkapy.type import BootstrapServersTypes, BootstrapServersSplitTypes
+from kafkapy.types import BootstrapServersTypes, BootstrapServersSplitTypes
 import typing
 
 
