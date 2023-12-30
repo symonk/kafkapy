@@ -27,6 +27,9 @@ For a full properties reference, see the following:
 View `librdkafka` properties [Here](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md)
 
 
+> [!TIP]
+> `kafkapy` looks great, but when piping to other tooling colour is automatically excluded for unix compatibility!  
+
 -----
 
 ## Contributing
