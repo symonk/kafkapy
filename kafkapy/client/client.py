@@ -1,8 +1,7 @@
 from __future__ import annotations
-from dataclasses import dataclass
 from confluent_kafka.admin import AdminClient
-from confluent_kafka.error import KafkaException
-from kafkapy.properties import KafkaProtocolProperties
+from .models import SerializableClusterMetaData
+from ..properties import KafkaProtocolProperties
 import typing
 
 
@@ -47,21 +46,3 @@ class KafkaPyClient:
     def close(self) -> None:
         """Close the underlying client"""
         ...
-
-
-@dataclass(frozen=True)
-class TopicMetadata:
-    """A Serializable piece of topic meta data."""
-
-    error: KafkaException
-    partitions: int
-    topic: str
-
-
-@dataclass(frozen=True)
-class SerializableClusterMetaData:
-    """Json serializable topic meta data."""
-
-    brokers: typing.Dict
-    cluster_id: str
-    topics: typing.List[TopicMetadata]
