@@ -6,8 +6,13 @@
 
 ###  Kafkapy
 
-Kafkapy is a python kafka administrative tool for managing brokers and other resources brokers manage such as
-`topics` and `partitions`.  
+A python command line interface for inspection and management of a kafka cluster.  `kafkapy` is a single utility
+for all management and inspection actions.  I wrote this tool when working with `AWS MSK` as dealing with many
+different utility scripts from confluence was combersome and often required additional pre/post processing of the
+data which is not in a suitable format for piping etc, thus `kafkapy` was born.
+
+`kafkapy` aims to implement all the actions supported by the confluence utility scripts, but also plans to build in
+testability for common tasks, such as calculating the sum of all offset lag across all partitions for a topic etc.
 
 
 > [!IMPORTANT]
@@ -18,9 +23,25 @@ Kafkapy is a python kafka administrative tool for managing brokers and other res
 
 ## Quick Start
 
-Create a `properties.yaml` file, by default `kafkapy` will look in `~/.kafkapy/properties.yaml` if one is not
-provided via `--properties` option.  This file should set any of the properties you wish to pass on to the underlying
-`librdkafka` library options.
+`kafkapy` is very simple to use, you need two simple things to get started.
+
+```console
+# install the python package:
+pip install kafkapy
+
+# to get started:
+kafkapy --help
+```
+
+In order to interact with kafka, you should create a `properties.yaml` file on disk and provide it's path to
+any commands, the `properties.yaml` file will honour any `librdkafka` properties.  By default `kafkapy` will
+look inside `~/.kafkapy/properties.yaml` as a fallback should you not provide the option explicitly via
+`--properties`.   
+
+Additionally all commands take an (Optional) `--bootstrap-servers` (List) option which you can specify the
+broker addresses manually, these are also available via `librdkafka` config via the `bootstrap.servers` property
+so can reside in your `properties.yaml` file if you so choose. 
+
 
 For a full properties reference, see the following:
 
@@ -28,14 +49,15 @@ View `librdkafka` properties [Here](https://github.com/confluentinc/librdkafka/b
 
 
 > [!TIP]
-> `kafkapy` looks great, but when piping to other tooling colour is automatically excluded for unix compatibility!  
+> `kafkapy` looks great, but when piping to other tooling colour is automatically excluded for unix compatibility 
 
+> [!TIP]
+> Ensure your kafka cluster is up and running.
+
+> [!TIP]
+> Ensure your ~/.kafkapy/properties.yaml contains appropriate properties for auth etc.
 -----
 
 ## Contributing
 
-In order to contribute to the project:
-
-```python
-# placeholder
-```
+If you want to contribute with Kafkapy check out the Contributing Guide to learn how to start.
