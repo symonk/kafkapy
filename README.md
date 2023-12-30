@@ -15,7 +15,7 @@ data which is not in a suitable format for piping etc, thus `kafkapy` was born.
 testability for common tasks, such as calculating the sum of all offset lag across all partitions for a topic etc.
 
 
-> [!IMPORTANT]
+> [!CAUTION]
 > `Kafkapy` requires broker versions 0.11.0.0 or greater. 
 
 
@@ -46,7 +46,7 @@ broker addresses manually, these are also available via `librdkafka` config via 
 so can reside in your `properties.yaml` file if you so choose. 
 
 > [!TIP]
-> Ensure your ~/.kafkapy/properties.yaml contains appropriate properties for auth etc.
+> Ensure your `~/.kafkapy/properties.yaml` contains appropriate properties for auth etc.
 
 View `librdkafka` properties [Here](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md)
 
