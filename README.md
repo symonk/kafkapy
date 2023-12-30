@@ -58,7 +58,7 @@ View `librdkafka` properties [Here](https://github.com/confluentinc/librdkafka/b
 ## User Guide
 
 > [!TIP]
-> For full examples, visit the user guide as: (https://img.shields.io/badge/documentation-online-brightgreen.svg)](https://symonk.github.io/kafkapy/)
+> For full examples, visit the user guide at: https://symonk.github.io/kafkapy/
 
 -----
 
