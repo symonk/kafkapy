@@ -9,8 +9,8 @@ theme:
     primary: light blue
     accent: purple
   font:
-    text: Work Sans
-    code: Work Sans
+    text: Poppins 
+    code: Poppins 
   icon:
     repo: fontawesome/brands/git
 repo_name: symonk/kafkapy
@@ -22,6 +22,9 @@ watch:
   - kafkapy 
 nav:
     - Introduction: index.md
+    - User Guide: user_guide.md
+    - Topic Commands: topics.md
+
 plugins:
     - search
     - mkdocstrings:
@@ -29,18 +32,23 @@ plugins:
         handlers:
           python:
             options:
+              heading_level: 2
+              show_root_heading: true
+              show_symbol_type_heading: true
               docstring_style: sphinx
-              line_length: 88
-              show_if_no_docstring: false
+              line_length: 120
+              show_if_no_docstring: true
               merge_init_into_class: true
               show_source: true
-              docstring_section_style: table
+              docstring_section_style: spacy
               show_bases: false
               show_symbol_type_toc: true
               annotations_path: brief
-              show_signature_annotations: true
-              separate_signature: false
+              show_signature_annotations: false
+              separate_signature: true
+              unwrap_annotated: true
               show_docstring_returns: true
+              show_docstring_yields: true
 
 markdown_extensions:
   - admonition

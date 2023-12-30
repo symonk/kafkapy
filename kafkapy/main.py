@@ -1,11 +1,11 @@
 import typer
 from typing_extensions import Annotated
 from kafkapy.constants import LibraryMeta
-from kafkapy.topics import topics
+from kafkapy.cli.topics import topics
 from kafkapy.consumer_groups import consumers
 from kafkapy.brokers import brokers
 from kafkapy.acls import acls
-from kafkapy.options import VERSION_OPTION
+from kafkapy.cli.options import VERSION_OPTION
 
 app = typer.Typer(
     help="Python CLI for managing kafka clusters.",
