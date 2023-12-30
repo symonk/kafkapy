@@ -1,7 +1,12 @@
 from __future__ import annotations
 from confluent_kafka.admin import AdminClient
 from confluent_kafka.admin import ClusterMetadata
-from .models import SerializableClusterMetaData, TopicMetadata
+from .models import (
+    SerializableClusterMetaData,
+    SerializableTopicMetaData,
+    SerializableBrokerMetaData,
+    SerializablePartitionmetaData,
+)
 from ..properties import KafkaProtocolProperties
 import typing
 
@@ -35,12 +40,26 @@ class KafkaPyClient:
             timeout=timeout,
         )
         return SerializableClusterMetaData(
-            brokers=response.brokers,
             cluster_id=response.cluster_id,
+            brokers=[
+                SerializableBrokerMetaData(
+                    host=broker.host, port=broker.port, broker_id=broker.id
+                )
+                for broker in response.brokers.values()
+            ],
             topics=[
-                TopicMetadata(
+                SerializableTopicMetaData(
                     topic=name,
-                    partitions=meta_data.partitions,
+                    partitions=[
+                        SerializablePartitionmetaData(
+                            partition.id,
+                            partition.leader,
+                            partition.replicas,
+                            partition.isrs,
+                            partition.error,
+                        )
+                        for partition in meta_data.partitions.values()
+                    ],
                     error=meta_data.error,
                 )
                 for name, meta_data in response.topics.items()

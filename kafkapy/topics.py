@@ -50,8 +50,8 @@ def list(
         properties=properties,
         bootstrap_servers=bootstrap_servers,
     ) as client:
-        topics = client.list_topics(
+        topic_metadata = client.list_topics(
             topic=topic,
             timeout=timeout,
         )
-        write_out(topics.topics)
+        write_out(topic_metadata)
