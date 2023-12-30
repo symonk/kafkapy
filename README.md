@@ -14,6 +14,8 @@ data which is not in a suitable format for piping etc, thus `kafkapy` was born.
 `kafkapy` aims to implement all the actions supported by the confluence utility scripts, but also plans to build in
 testability for common tasks, such as calculating the sum of all offset lag across all partitions for a topic etc.
 
+All output from `kafkapy` to `stdout` is fully compliant `json` and suitable for piping to tools etc.
+
 
 > [!CAUTION]
 > `Kafkapy` requires broker versions 0.11.0.0 or greater. 
