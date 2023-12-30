@@ -1,5 +1,5 @@
 import typer
-from kafkapy.deco import set_cmd_description
+from kafkapy.help import generate_help
 from kafkapy.constants import CommandDescriptions
 from typing_extensions import Annotated
 from typing import List
@@ -14,7 +14,6 @@ brokers = typer.Typer(
 brokers_id_opt = typer.Option("--broker-id", help="The broker ID to check")
 
 
-@brokers.command()
-@set_cmd_description(CommandDescriptions.BROKER_LIST)
+@brokers.command(help=generate_help(CommandDescriptions.BROKER_LIST))
 def list(ctx: typer.Context, broker_ids: Annotated[List[str], brokers_id_opt] = None):
     ...

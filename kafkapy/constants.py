@@ -32,7 +32,7 @@ class CommandDescriptions:
     )
 
     # topic specifics
-    TOPIC_VIEW = CommandMeta(
+    TOPIC_LIST = CommandMeta(
         description="View the set of known topics, optionally including internal topics"
     )
     TOPIC_DESCRIBE = CommandMeta(description="Describes the topics")
