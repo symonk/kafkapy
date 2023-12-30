@@ -9,7 +9,7 @@ from kafkapy.deco import set_cmd_description
 from kafkapy.constants import OptionDefaults
 from kafkapy.utils import get_client
 from kafkapy.constants import CommandDescriptions, AppHelp
-from kafkapy.out import write_out
+from kafkapy.out import write_json_out
 
 # Todo:
 # describe topics
@@ -54,4 +54,4 @@ def list(
             topic=topic,
             timeout=timeout,
         )
-        write_out(topic_metadata)
+        write_json_out(topic_metadata)

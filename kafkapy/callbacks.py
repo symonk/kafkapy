@@ -11,7 +11,7 @@ def version_callback(value: bool) -> str:
         write_out(
             f"[white][bold]{LibraryMeta.NAME.title()}[/white][/bold] [green][bold]{__version__}[/green][/bold] [yellow][bold]:zap:[/yellow][/bold]"
         )
-        raise typer.Exit(code=0)
+        raise typer.Exit(0)
 
 
 def bootstrap_servers_callback(
