@@ -55,6 +55,13 @@ View `librdkafka` properties [Here](https://github.com/confluentinc/librdkafka/b
 
 -----
 
+## User Guide
+
+> [!TIP]
+> For full examples, visit the user guide as: (https://img.shields.io/badge/documentation-online-brightgreen.svg)](https://symonk.github.io/kafkapy/)
+
+-----
+
 ## Contributing
 
 If you want to contribute with Kafkapy check out the Contributing Guide to learn how to start.
