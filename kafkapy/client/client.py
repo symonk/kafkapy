@@ -1,6 +1,7 @@
 from __future__ import annotations
 from confluent_kafka.admin import AdminClient
-from .models import SerializableClusterMetaData
+from confluent_kafka.admin import ClusterMetadata
+from .models import SerializableClusterMetaData, TopicMetadata
 from ..properties import KafkaProtocolProperties
 import typing
 
@@ -29,11 +30,22 @@ class KafkaPyClient:
         :param topic: (Optional) topic name to fetch only the data for, otherwise fetches all topics.
         :param timeout: The timeout for read/connect operations to the cluster, defaults to infinite (-1).
         """
-        response = self.client.list_topics(
+        response: ClusterMetadata = self.client.list_topics(
             topic=topic,
             timeout=timeout,
         )
-        return response
+        return SerializableClusterMetaData(
+            brokers=response.brokers,
+            cluster_id=response.cluster_id,
+            topics=[
+                TopicMetadata(
+                    topic=name,
+                    partitions=meta_data.partitions,
+                    error=meta_data.error,
+                )
+                for name, meta_data in response.topics.items()
+            ],
+        )
 
     def __enter__(self) -> KafkaPyClient:
         """Allow the client to be used as a context."""

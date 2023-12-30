@@ -8,7 +8,7 @@ from contextlib import contextmanager
 def get_client(
     properties: KafkaProtocolProperties,
     bootstrap_servers: typing.Optional[typing.Sequence[str]] = None,
-) -> KafkaPyClient:
+) -> typing.Generator[KafkaPyClient, None, None]:
     """Setup the client within the shared context for use throughout command
     invocations.  This is handled via the main callback.  If not client has
     been set initially, this will create one and attach it to the context.
