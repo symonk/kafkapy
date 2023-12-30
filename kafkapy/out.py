@@ -1,5 +1,6 @@
 import typer
 from rich import print
+from rich import print_json
 import sys
 import typing
 from .client import Serializable
@@ -9,7 +10,7 @@ def write_out(data: typing.Union[str, Serializable], *args, **kwargs):
     """Use rich to nicely print to stdout.
 
     :param data: The data to write out."""
-    print(check_is_serializable(data), *args, **kwargs, file=sys.stdout)
+    print_json(check_is_serializable(data), *args, **kwargs)
 
 
 def write_err(data: typing.Union[str, Serializable], *args, **kwargs):
