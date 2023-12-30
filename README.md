@@ -9,6 +9,10 @@
 Kafkapy is a python kafka administrative tool for managing brokers and other resources brokers manage such as
 `topics` and `partitions`.  
 
+> [!WARNING]
+> Kafkapy requires broker versions 0.11.0.0 or greater. 
+
+
 -----
 
 ## Quick Start

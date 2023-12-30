@@ -2,7 +2,7 @@ import typer
 from typing_extensions import Annotated
 import pathlib
 import typing
-from kafkapy.options import VERBOSE_OPTION, PROPERTIES_FILE_OPTION
+from kafkapy.options import PROPERTIES_FILE_OPTION
 from kafkapy.properties import KafkaProtocolProperties
 from kafkapy.options import BOOTSTRAP_SERVERS_OPTION
 from kafkapy.deco import set_cmd_description
@@ -10,7 +10,6 @@ from kafkapy.constants import OptionDefaults
 from kafkapy.utils import get_client
 from kafkapy.constants import CommandDescriptions, AppHelp
 from kafkapy.out import write_out
-from kafkapy.out import die, write_err
 
 # Todo:
 # describe topics
@@ -44,25 +43,15 @@ def list(
     properties: Annotated[
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
-    verbose: Annotated[bool, VERBOSE_OPTION] = False,  # Todo: no need for this (yet)
     topic: Annotated[str, topic_name_option] = None,
     timeout: Annotated[int, timeout_seconds_option] = -1,
 ) -> None:
     with get_client(
-        properties=properties, bootstrap_servers=bootstrap_servers
+        properties=properties,
+        bootstrap_servers=bootstrap_servers,
     ) as client:
-        topics = client.list_topics(topic=topic, timeout=timeout)
-        exit_code = 0
-        success, failed = [], []
-        for name, meta_data in topics.topics.items():
-            if meta_data.error is not None:
-                failed.append({name: meta_data})
-                exit_code = 1
-            else:
-                success.append({name: meta_data})
-        if success:
-            write_out(success)
-        if failed:
-            write_err(failed)
-        if not exit_code:
-            die(exit_code, "")
+        topics = client.list_topics(
+            topic=topic,
+            timeout=timeout,
+        )
+        write_out(topics.topics)

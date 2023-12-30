@@ -11,7 +11,6 @@ import typer
 BOOTSTRAP_SERVERS_OPTION = typer.Option(
     "--bootstrap-servers",
     help="Kafka bootstrap servers, overrides properties if specified.",
-    # Todo: Improve validation here in future; but host/port is not necessary for librdkafka.
     # callback=bootstrap_servers_callback,
 )
 
