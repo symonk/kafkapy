@@ -33,6 +33,9 @@ pip install kafkapy
 kafkapy --help
 ```
 
+> [!TIP]
+> Ensure your kafka cluster is up and running.
+
 In order to interact with kafka, you should create a `properties.yaml` file on disk and provide it's path to
 any commands, the `properties.yaml` file will honour any `librdkafka` properties.  By default `kafkapy` will
 look inside `~/.kafkapy/properties.yaml` as a fallback should you not provide the option explicitly via
@@ -42,20 +45,14 @@ Additionally all commands take an (Optional) `--bootstrap-servers` (List) option
 broker addresses manually, these are also available via `librdkafka` config via the `bootstrap.servers` property
 so can reside in your `properties.yaml` file if you so choose. 
 
-
-For a full properties reference, see the following:
+> [!TIP]
+> Ensure your ~/.kafkapy/properties.yaml contains appropriate properties for auth etc.
 
 View `librdkafka` properties [Here](https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md)
-
 
 > [!TIP]
 > `kafkapy` looks great, but when piping to other tooling colour is automatically excluded for unix compatibility 
 
-> [!TIP]
-> Ensure your kafka cluster is up and running.
-
-> [!TIP]
-> Ensure your ~/.kafkapy/properties.yaml contains appropriate properties for auth etc.
 -----
 
 ## Contributing
