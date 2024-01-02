@@ -41,3 +41,37 @@ TOPIC_NAME_OPTION = typer.Option(
     "--topic",
     help="The name of the topic.",
 )
+
+OPERATION_TIMEOUT = typer.Option(
+    "--operation-timeout",
+    help="""The operation timeout in seconds.  This controls how long the request will block on the broker
+    waiting for the deletion to propagate in the cluster. Defaults to 0.""",
+)
+
+REQUEST_TIMEOUT = typer.Option(
+    "--request-timeout",
+    help="""The overall request timeout in seconds, including broker lookup, request transmission, operation time and response.
+    Defaults to the socket.timeout.ms * 1000""",
+)
+
+TOPIC_PARTITION_OPTION = typer.Option(
+    "--partitions",
+    help="The total number of partitions to create, or -1 if --replica-assignment is not provided.",
+)
+
+TOPIC_REPLICATION_FACTOR_OPTION = typer.Option(
+    "--replication-factor",
+    help="The Replication factor of partitions, or -1 if --replica-assignment is not provided. ",
+)
+
+TOPIC_REPLICA_ASSIGNMENT_OPTION = typer.Option(
+    "--replication-assignment",
+    help="A 2D array with the replication assignment for each partition.",
+)
+
+TIMEOUT_INDEF_SECONDS_OPTION = typer.Option(
+    "--timeout",
+    help="The maximum response time before timing out, forever by default",
+)
+
+CREATE_TOPICS_OPTION = typer.Option("--topics", help="A list of topics to create.")

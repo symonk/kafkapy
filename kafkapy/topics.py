@@ -1,7 +1,18 @@
 import typer
 from typing_extensions import Annotated
 import pathlib
+import socket
 import typing
+from kafkapy.options import OPERATION_TIMEOUT
+from kafkapy.options import (
+    REQUEST_TIMEOUT,
+    TIMEOUT_INDEF_SECONDS_OPTION,
+    topic_authorized_operations_option,
+    TOPIC_PARTITION_OPTION,
+    TOPIC_REPLICATION_FACTOR_OPTION,
+    TOPIC_REPLICA_ASSIGNMENT_OPTION,
+)
+from kafkapy.arguments import TOPIC_NAME_ARGUMENT, TOPIC_CONFIG_ARGUMENT
 from kafkapy.options import PROPERTIES_FILE_OPTION
 from kafkapy.properties import KafkaProtocolProperties
 from kafkapy.options import BOOTSTRAP_SERVERS_OPTION
@@ -17,16 +28,6 @@ topics = typer.Typer(
     rich_markup_mode="rich",
 )
 
-topic_name_option = typer.Option(
-    "--topic",
-    help="The particular topic to lookup information of, all topics if not provided.",
-)
-
-timeout_seconds_option = typer.Option(
-    "--timeout",
-    help="The maximum response time before timing out, forever by default",
-)
-
 
 @topics.command(help=generate_help(CommandDescriptions.TOPIC_LIST))
 def list(
@@ -36,8 +37,8 @@ def list(
     properties: Annotated[
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
-    topic: Annotated[str, topic_name_option] = None,
-    timeout: Annotated[int, timeout_seconds_option] = -1,
+    topic: Annotated[str, TOPIC_NAME_ARGUMENT] = None,
+    timeout: Annotated[int, TIMEOUT_INDEF_SECONDS_OPTION] = -1,
 ) -> None:
     """Fetches topic meta data.  This includes information about the brokers,
     cluster_id and topic partition data, including leader, replic and in sync replica
@@ -60,6 +61,11 @@ def list(
 
 @topics.command(help=generate_help(CommandDescriptions.TOPIC_DESCRIBE))
 def describe(
+    topics: Annotated[typing.List[str], TOPIC_NAME_ARGUMENT],
+    include_authorized_operations: Annotated[
+        bool, topic_authorized_operations_option
+    ] = False,
+    request_timeout: Annotated[float, REQUEST_TIMEOUT] = socket.timeout.ms * 1000,
     bootstrap_servers: Annotated[
         typing.List[str], BOOTSTRAP_SERVERS_OPTION
     ] = OptionDefaults.LOCAL_KAFKA,
@@ -67,11 +73,23 @@ def describe(
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
 ) -> None:
+    """Describe a suite of topic(s)."""
     ...
 
 
+# Todo: Make it work for one, should allow multiple topics.
 @topics.command(help=generate_help(CommandDescriptions.TOPIC_CREATE))
 def create(
+    topic: Annotated[str, TOPIC_NAME_ARGUMENT],
+    operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 0,
+    request_timeout: Annotated[float, REQUEST_TIMEOUT] = socket.timeout.ms * 1000,
+    topic_config: Annotated[typing.Dict, TOPIC_CONFIG_ARGUMENT] = None,
+    partitions: Annotated[int, TOPIC_PARTITION_OPTION] = -1,
+    replication_factor: Annotated[int, TOPIC_REPLICATION_FACTOR_OPTION] = -1,
+    replica_assignment: Annotated[
+        typing.List[typing.List[int]],
+        TOPIC_REPLICA_ASSIGNMENT_OPTION,
+    ] = None,
     bootstrap_servers: Annotated[
         typing.List[str], BOOTSTRAP_SERVERS_OPTION
     ] = OptionDefaults.LOCAL_KAFKA,
@@ -79,11 +97,20 @@ def create(
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
 ) -> None:
+    """Create a new topic.
+
+    :param topics: (Required) The topic data, this should typically be provided as a
+    dictionary where the topic name is stored under a 'name' key and additional topic
+    is provided.
+    """
     ...
 
 
 @topics.command(help=generate_help(CommandDescriptions.TOPIC_DELETE))
 def delete(
+    topics: Annotated[typing.List[str], TOPIC_NAME_ARGUMENT],
+    operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 0,
+    request_timeout: Annotated[float, REQUEST_TIMEOUT] = socket.timeout.ms * 1000,
     bootstrap_servers: Annotated[
         typing.List[str], BOOTSTRAP_SERVERS_OPTION
     ] = OptionDefaults.LOCAL_KAFKA,
@@ -91,6 +118,7 @@ def delete(
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
 ) -> None:
+    """Delete one or more topics."""
     ...
 
 
