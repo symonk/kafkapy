@@ -1,5 +1,4 @@
 import pathlib
-import socket
 import typing
 
 import typer
@@ -67,7 +66,7 @@ def describe(
     include_authorized_operations: Annotated[
         bool, TOPIC_AUTHORIZED_OPERATIONS_OPTION
     ] = False,
-    request_timeout: Annotated[float, REQUEST_TIMEOUT] = socket.timeout.ms * 1000,
+    request_timeout: Annotated[float, REQUEST_TIMEOUT] = 30.00,
     bootstrap_servers: Annotated[
         typing.List[str], BOOTSTRAP_SERVERS_OPTION
     ] = OptionDefaults.LOCAL_KAFKA,
@@ -92,7 +91,7 @@ def create(
     topic_config: Annotated[typing.Dict, TOPIC_CONFIG_OPTION],
     topic: Annotated[str, TOPIC_NAME_OPTION],
     operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 0,
-    request_timeout: Annotated[float, REQUEST_TIMEOUT] = socket.timeout.ms * 1000,
+    request_timeout: Annotated[float, REQUEST_TIMEOUT] = 30.00,
     partitions: Annotated[int, TOPIC_PARTITION_OPTION] = -1,
     replication_factor: Annotated[int, TOPIC_REPLICATION_FACTOR_OPTION] = -1,
     replica_assignment: Annotated[
@@ -127,7 +126,7 @@ def create(
 def delete(
     topics: Annotated[typing.List[str], TOPIC_NAME_OPTION],
     operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 0,
-    request_timeout: Annotated[float, REQUEST_TIMEOUT] = socket.timeout.ms * 1000,
+    request_timeout: Annotated[float, REQUEST_TIMEOUT] = 30.00,
     bootstrap_servers: Annotated[
         typing.List[str], BOOTSTRAP_SERVERS_OPTION
     ] = OptionDefaults.LOCAL_KAFKA,
