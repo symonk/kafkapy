@@ -1,8 +1,8 @@
 import typer
 from .out import write_out
-from kafkapy.__version__ import __version__
-from kafkapy.constants import LibraryMeta
-from kafkapy.type_alias import BootstrapServersTypes, BootstrapServersSplitTypes
+from .__version__ import __version__
+from .constants import LibraryMeta
+from .type_alias import BootstrapServersSplitTypes, BootstrapServersTypes
 
 
 def version_callback(value: bool) -> str:

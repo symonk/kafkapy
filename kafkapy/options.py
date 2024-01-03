@@ -69,6 +69,11 @@ TOPIC_REPLICA_ASSIGNMENT_OPTION = typer.Option(
     help="A 2D array with the replication assignment for each partition.",
 )
 
+TOPIC_AUTHORIZED_OPERATIONS_OPTION = typer.Option(
+    "--include-authorized-operations",
+    help="If true, fetches topic ACL Operations.  Off by default.",
+)
+
 TIMEOUT_INDEF_SECONDS_OPTION = typer.Option(
     "--timeout",
     help="The maximum response time before timing out, forever by default",

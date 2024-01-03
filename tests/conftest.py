@@ -1,4 +1,4 @@
-from kafkapy.main import app
+from kafkapy.main import root_application
 from typer.testing import CliRunner
 import pathlib
 import pytest
@@ -17,7 +17,7 @@ def kafkapytester() -> CliRunner:
 @pytest.fixture()
 def root_app():
     """Return the root (parent) app of kafkapy."""
-    return app
+    return root_application
 
 
 @pytest.fixture(scope="session")

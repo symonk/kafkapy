@@ -1,5 +1,5 @@
-from kafkapy.properties import KafkaProtocolProperties
-from kafkapy.out import write_err
+from .properties import KafkaProtocolProperties
+from .out import write_err
 import pathlib
 import typer
 import yaml
