@@ -1,7 +1,8 @@
-import typing
-from dataclasses import dataclass
-from dataclasses import asdict
 import json
+import typing
+from dataclasses import asdict
+from dataclasses import dataclass
+
 from confluent_kafka import KafkaException
 from confluent_kafka.admin import BrokerMetadata
 

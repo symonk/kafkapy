@@ -1,8 +1,10 @@
-from .properties import KafkaProtocolProperties
-from .out import write_err
 import pathlib
+
 import typer
 import yaml
+
+from .out import write_err
+from .properties import KafkaProtocolProperties
 
 
 def path_to_properties_converter(

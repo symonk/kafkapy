@@ -3,10 +3,10 @@ is that options are typically optional and arguments are required.
 However, providing no default value for an option will also force
 it to the required.  Options denoted with an ellipsis default are
 also required."""
-from .callbacks import version_callback
-from .parsers import path_to_properties_converter
 import typer
 
+from .callbacks import version_callback
+from .parsers import path_to_properties_converter
 
 BOOTSTRAP_SERVERS_OPTION = typer.Option(
     "--bootstrap-servers",

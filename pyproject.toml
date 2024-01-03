@@ -67,6 +67,7 @@ ignore_errors = false
 
 [tool.ruff]
 line-length = 88
+select = ["F", "I"]
 target-version = "py311"
 
 [tool.ruff.lint]

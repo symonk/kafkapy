@@ -1,6 +1,6 @@
 import typer
-from .constants import AppHelp
 
+from .constants import AppHelp
 
 consumer_groups_application = typer.Typer(
     name="consumer-groups",

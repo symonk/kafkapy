@@ -1,8 +1,10 @@
+import sys
+import typing
+
 import typer
 from rich import print
 from rich import print_json
-import sys
-import typing
+
 from .client import Serializable
 
 

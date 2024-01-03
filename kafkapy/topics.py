@@ -1,27 +1,28 @@
-import typer
-from typing_extensions import Annotated
 import pathlib
 import socket
 import typing
-from .arguments import TOPIC_NAME_ARGUMENT, TOPIC_CONFIG_ARGUMENT
-from .options import (
-    PROPERTIES_FILE_OPTION,
-    BOOTSTRAP_SERVERS_OPTION,
-    REQUEST_TIMEOUT,
-    TIMEOUT_INDEF_SECONDS_OPTION,
-    TOPIC_PARTITION_OPTION,
-    TOPIC_REPLICA_ASSIGNMENT_OPTION,
-    TOPIC_REPLICATION_FACTOR_OPTION,
-    OPERATION_TIMEOUT,
-    TOPIC_AUTHORIZED_OPERATIONS_OPTION,
-)
 
+import typer
+from typing_extensions import Annotated
 
-from .properties import KafkaProtocolProperties
-from .constants import OptionDefaults, CommandDescriptions, AppHelp
-from .utils import get_client
-from .out import write_json_out
+from .arguments import TOPIC_CONFIG_ARGUMENT
+from .arguments import TOPIC_NAME_ARGUMENT
+from .constants import AppHelp
+from .constants import CommandDescriptions
+from .constants import OptionDefaults
 from .help import generate_help
+from .options import BOOTSTRAP_SERVERS_OPTION
+from .options import OPERATION_TIMEOUT
+from .options import PROPERTIES_FILE_OPTION
+from .options import REQUEST_TIMEOUT
+from .options import TIMEOUT_INDEF_SECONDS_OPTION
+from .options import TOPIC_AUTHORIZED_OPERATIONS_OPTION
+from .options import TOPIC_PARTITION_OPTION
+from .options import TOPIC_REPLICA_ASSIGNMENT_OPTION
+from .options import TOPIC_REPLICATION_FACTOR_OPTION
+from .out import write_json_out
+from .properties import KafkaProtocolProperties
+from .utils import get_client
 
 topics_application = typer.Typer(
     name="topics",

@@ -1,14 +1,15 @@
 from __future__ import annotations
+
+import typing
+
 from confluent_kafka.admin import AdminClient
 from confluent_kafka.admin import ClusterMetadata
-from .models import (
-    SerializableClusterMetaData,
-    SerializableTopicMetaData,
-    SerializableBrokerMetaData,
-    SerializablePartitionmetaData,
-)
+
 from ..properties import KafkaProtocolProperties
-import typing
+from .models import SerializableBrokerMetaData
+from .models import SerializableClusterMetaData
+from .models import SerializablePartitionmetaData
+from .models import SerializableTopicMetaData
 
 
 class KafkaPyClient:

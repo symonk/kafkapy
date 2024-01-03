@@ -1,7 +1,8 @@
-from .client import KafkaPyClient
-from .properties import KafkaProtocolProperties
 import typing
 from contextlib import contextmanager
+
+from .client import KafkaPyClient
+from .properties import KafkaProtocolProperties
 
 
 @contextmanager
