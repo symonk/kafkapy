@@ -88,14 +88,15 @@ def describe(
 # Todo: Make it work for one, should allow multiple topics.
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_CREATE))
 def create(
-    topic_config: Annotated[typing.Dict, TOPIC_CONFIG_OPTION],
+    topic_config: Annotated[str, TOPIC_CONFIG_OPTION],
     topic: Annotated[str, TOPIC_NAME_OPTION],
     operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 0,
     request_timeout: Annotated[float, REQUEST_TIMEOUT] = 30.00,
     partitions: Annotated[int, TOPIC_PARTITION_OPTION] = -1,
     replication_factor: Annotated[int, TOPIC_REPLICATION_FACTOR_OPTION] = -1,
     replica_assignment: Annotated[
-        typing.List[typing.List[int]],
+        # Todo: Typer, or click does not support a 2D array/matrix.
+        typing.List[int],
         TOPIC_REPLICA_ASSIGNMENT_OPTION,
     ] = None,
     bootstrap_servers: Annotated[
