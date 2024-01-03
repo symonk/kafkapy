@@ -5,8 +5,6 @@ import typing
 import typer
 from typing_extensions import Annotated
 
-from .arguments import TOPIC_CONFIG_ARGUMENT
-from .arguments import TOPIC_NAME_ARGUMENT
 from .constants import AppHelp
 from .constants import CommandDescriptions
 from .constants import OptionDefaults
@@ -17,6 +15,8 @@ from .options import PROPERTIES_FILE_OPTION
 from .options import REQUEST_TIMEOUT
 from .options import TIMEOUT_INDEF_SECONDS_OPTION
 from .options import TOPIC_AUTHORIZED_OPERATIONS_OPTION
+from .options import TOPIC_CONFIG_OPTION
+from .options import TOPIC_NAME_OPTION
 from .options import TOPIC_PARTITION_OPTION
 from .options import TOPIC_REPLICA_ASSIGNMENT_OPTION
 from .options import TOPIC_REPLICATION_FACTOR_OPTION
@@ -33,13 +33,13 @@ topics_application = typer.Typer(
 
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_LIST))
 def list(
+    topic: Annotated[str, TOPIC_NAME_OPTION],
     bootstrap_servers: Annotated[
         typing.List[str], BOOTSTRAP_SERVERS_OPTION
     ] = OptionDefaults.LOCAL_KAFKA,
     properties: Annotated[
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
-    topic: Annotated[str, TOPIC_NAME_ARGUMENT] = None,
     timeout: Annotated[int, TIMEOUT_INDEF_SECONDS_OPTION] = -1,
 ) -> None:
     """Fetches topic meta data.  This includes information about the brokers,
@@ -63,7 +63,7 @@ def list(
 
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_DESCRIBE))
 def describe(
-    topics: Annotated[typing.List[str], TOPIC_NAME_ARGUMENT],
+    topics: Annotated[typing.List[str], TOPIC_NAME_OPTION],
     include_authorized_operations: Annotated[
         bool, TOPIC_AUTHORIZED_OPERATIONS_OPTION
     ] = False,
@@ -89,10 +89,10 @@ def describe(
 # Todo: Make it work for one, should allow multiple topics.
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_CREATE))
 def create(
-    topic: Annotated[str, TOPIC_NAME_ARGUMENT],
+    topic_config: Annotated[typing.Dict, TOPIC_CONFIG_OPTION],
+    topic: Annotated[str, TOPIC_NAME_OPTION],
     operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 0,
     request_timeout: Annotated[float, REQUEST_TIMEOUT] = socket.timeout.ms * 1000,
-    topic_config: Annotated[typing.Dict, TOPIC_CONFIG_ARGUMENT] = None,
     partitions: Annotated[int, TOPIC_PARTITION_OPTION] = -1,
     replication_factor: Annotated[int, TOPIC_REPLICATION_FACTOR_OPTION] = -1,
     replica_assignment: Annotated[
@@ -125,7 +125,7 @@ def create(
 
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_DELETE))
 def delete(
-    topics: Annotated[typing.List[str], TOPIC_NAME_ARGUMENT],
+    topics: Annotated[typing.List[str], TOPIC_NAME_OPTION],
     operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 0,
     request_timeout: Annotated[float, REQUEST_TIMEOUT] = socket.timeout.ms * 1000,
     bootstrap_servers: Annotated[

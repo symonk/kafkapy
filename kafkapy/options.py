@@ -80,3 +80,13 @@ TIMEOUT_INDEF_SECONDS_OPTION = typer.Option(
 )
 
 CREATE_TOPICS_OPTION = typer.Option("--topics", help="A list of topics to create.")
+
+TOPIC_NAME_OPTION = typer.Option(
+    "--topic",
+    help="The particular topic to lookup information of, all topics if not provided.",
+)
+
+TOPIC_CONFIG_OPTION = typer.Option(
+    "--topic-config",
+    help="The per-topic configuration, if omitted the topic server defaults will be applied.",
+)
