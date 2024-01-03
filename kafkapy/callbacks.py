@@ -7,8 +7,10 @@ from .type_alias import BootstrapServersSplitTypes
 from .type_alias import BootstrapServersTypes
 
 
-def version_callback(value: bool) -> str:
+def version_callback(ctx: typer.Context, value: bool) -> str:
     """Prints the version of kafkapy and exits."""
+    if ctx.resilient_parsing:
+        return
     if value:
         write_out(
             f"[white][bold]{LibraryMeta.NAME.title()}[/white][/bold] [green][bold]{__version__}[/green][/bold] [yellow][bold]:zap:[/yellow][/bold]"
