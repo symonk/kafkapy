@@ -5,20 +5,20 @@ from dataclasses import dataclass
 
 from confluent_kafka import KafkaException
 from confluent_kafka.admin import BrokerMetadata
+from pydantic import BaseModel
+from pydantic import ConfigDict
 
 
-@dataclass(frozen=True)
-class SerializableBrokerMetaData:
-    """Serializable Broker Meta Data."""
+class BrokerMeta(BaseModel):
+    """A Serializable"""
 
     host: str
     port: int
     broker_id: int
 
 
-@dataclass(frozen=True)
-class SerializablePartitionmetaData:
-    """Serializable Partition Meta Data."""
+class PartitionMeta(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     partition_id: int
     leader: int
@@ -32,7 +32,7 @@ class SerializableTopicMetaData:
     """Serializable Topic Meta Data."""
 
     topic: str
-    partitions: typing.List[SerializablePartitionmetaData]
+    partitions: typing.List[PartitionMeta]
     error: typing.Optional[KafkaException]
 
 

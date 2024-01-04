@@ -6,9 +6,9 @@ from confluent_kafka.admin import AdminClient
 from confluent_kafka.admin import ClusterMetadata
 
 from ..properties import KafkaProtocolProperties
-from .models import SerializableBrokerMetaData
+from .models import BrokerMeta
+from .models import PartitionMeta
 from .models import SerializableClusterMetaData
-from .models import SerializablePartitionmetaData
 from .models import SerializableTopicMetaData
 
 
@@ -43,16 +43,14 @@ class KafkaPyClient:
         return SerializableClusterMetaData(
             cluster_id=response.cluster_id,
             brokers=[
-                SerializableBrokerMetaData(
-                    host=broker.host, port=broker.port, broker_id=broker.id
-                )
+                BrokerMeta(host=broker.host, port=broker.port, broker_id=broker.id)
                 for broker in response.brokers.values()
             ],
             topics=[
                 SerializableTopicMetaData(
                     topic=name,
                     partitions=[
-                        SerializablePartitionmetaData(
+                        PartitionMeta(
                             partition.id,
                             partition.leader,
                             partition.replicas,
