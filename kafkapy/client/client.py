@@ -68,11 +68,19 @@ class KafkaPyClient:
         )
 
     def delete_topics(
-        self, topics: typing.List[str], operation_timeout: float, request_timeout: float
+        self,
+        topics: typing.List[str],
+        operation_timeout: float,
+        request_timeout: float,
     ) -> None:
         """Delete one or more topics.
 
-        :param topics: The sequence of topics to delete."""
+        :param topics: The sequence of topics to delete.
+        :param operation_timeout: The operation timeout in seconds, controlling how long the request will
+        block on the broker waiting for the topic deletion to propagate in the cluster.
+        :param request_timeout: The overall request timeout in seconds, including broker lookup,
+        request transmission, operation time on broker and response.  Default 30 seconds.
+        """
         response = self.client.delete_topics(
             topics=topics,
             operation_timeout=operation_timeout,
