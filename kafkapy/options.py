@@ -79,7 +79,10 @@ TIMEOUT_INDEF_SECONDS_OPTION = typer.Option(
     help="The maximum response time before timing out, forever by default",
 )
 
-CREATE_TOPICS_OPTION = typer.Option("--topics", help="A list of topics to create.")
+TOPICS_NAME_OPTION = typer.Option(
+    "--topics",
+    help="A list of topics to create.",
+)
 
 TOPIC_NAME_OPTION = typer.Option(
     "--topic",

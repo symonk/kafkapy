@@ -19,6 +19,7 @@ from .options import TOPIC_NAME_OPTION
 from .options import TOPIC_PARTITION_OPTION
 from .options import TOPIC_REPLICA_ASSIGNMENT_OPTION
 from .options import TOPIC_REPLICATION_FACTOR_OPTION
+from .options import TOPICS_NAME_OPTION
 from .out import write_json_out
 from .properties import KafkaProtocolProperties
 from .utils import get_client
@@ -32,7 +33,7 @@ topics_application = typer.Typer(
 
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_LIST))
 def list(
-    topic: Annotated[str, TOPIC_NAME_OPTION],
+    topic: Annotated[str, TOPIC_NAME_OPTION] = None,
     bootstrap_servers: Annotated[
         typing.List[str], BOOTSTRAP_SERVERS_OPTION
     ] = OptionDefaults.LOCAL_KAFKA,
@@ -44,6 +45,9 @@ def list(
     """Fetches topic meta data.  This includes information about the brokers,
     cluster_id and topic partition data, including leader, replic and in sync replica
     data.
+
+    WARNING: Listing a non existent topic can cause it to be created on the cluster if
+    auto.create.topics.enable is set to true on the broker.
 
     :param bootstrap_servers: The kafka broker addresses for bootstrapping client connections.
     :param properties: The properties.yaml file path, defaults to ~/.kafkapy/properties.yaml.
@@ -125,7 +129,7 @@ def create(
 
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_DELETE))
 def delete(
-    topics: Annotated[typing.List[str], TOPIC_NAME_OPTION],
+    topics: Annotated[typing.List[str], TOPICS_NAME_OPTION],
     operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 0,
     request_timeout: Annotated[float, REQUEST_TIMEOUT] = 30.00,
     bootstrap_servers: Annotated[
@@ -137,12 +141,22 @@ def delete(
 ) -> None:
     """Delete one or more topics.
 
-    :param topics: ...
-    :param operation_timeout: ...
-    :param request_timeout: ...
-    :param bootstrap_servers: ...
-    :param properties: ..."""
-    ...
+    :param topics: A list of topics to mark for deletion.
+    :param operation_timeout: The operation timeout in seconds, controlling how long the request will
+    block on the broker waiting for the topic deletion to propagate in the cluster.
+    :param request_timeout: The overall request timeout in seconds, including broker lookup,
+    request transmission, operation time on broker and response.  Default 30 seconds.
+    :param bootstrap_servers: The kafka broker addresses for bootstrapping client connections.
+    :param properties: The properties.yaml file path, defaults to ~/.kafkapy/properties.yaml.
+    """
+    with get_client(
+        properties=properties, bootstrap_servers=bootstrap_servers
+    ) as client:
+        client.delete_topics(
+            topics=topics,
+            operation_timeout=operation_timeout,
+            request_timeout=request_timeout,
+        )
 
 
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_DESTROY))

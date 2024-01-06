@@ -7,8 +7,8 @@ from confluent_kafka.admin import ClusterMetadata
 
 from ..properties import KafkaProtocolProperties
 from .models import BrokerMeta
+from .models import ClusterMetaData
 from .models import PartitionMeta
-from .models import SerializableClusterMetaData
 from .models import SerializableTopicMetaData
 
 
@@ -30,17 +30,19 @@ class KafkaPyClient:
         self,
         topic: typing.Optional[str] = None,
         timeout: float = -1,
-    ) -> typing.List[SerializableClusterMetaData]:
+    ) -> typing.List[ClusterMetaData]:
         """Fetch topic meta data from the cluster.
 
         :param topic: (Optional) topic name to fetch only the data for, otherwise fetches all topics.
         :param timeout: The timeout for read/connect operations to the cluster, defaults to infinite (-1).
+
+        # Todo: This is not sufficient, futures may not be finished?
         """
         response: ClusterMetadata = self.client.list_topics(
             topic=topic,
             timeout=timeout,
         )
-        return SerializableClusterMetaData(
+        return ClusterMetaData(
             cluster_id=response.cluster_id,
             brokers=[
                 BrokerMeta(host=broker.host, port=broker.port, broker_id=broker.id)
@@ -51,11 +53,11 @@ class KafkaPyClient:
                     topic=name,
                     partitions=[
                         PartitionMeta(
-                            partition.id,
-                            partition.leader,
-                            partition.replicas,
-                            partition.isrs,
-                            partition.error,
+                            partition_id=partition.id,
+                            leader=partition.leader,
+                            replicas=partition.replicas,
+                            in_sync_replicas=partition.isrs,
+                            error=partition.error,
                         )
                         for partition in meta_data.partitions.values()
                     ],
@@ -64,6 +66,19 @@ class KafkaPyClient:
                 for name, meta_data in response.topics.items()
             ],
         )
+
+    def delete_topics(
+        self, topics: typing.List[str], operation_timeout: float, request_timeout: float
+    ) -> None:
+        """Delete one or more topics.
+
+        :param topics: The sequence of topics to delete."""
+        response = self.client.delete_topics(
+            topics=topics,
+            operation_timeout=operation_timeout,
+            request_timeout=request_timeout,
+        )
+        return response
 
     def __enter__(self) -> KafkaPyClient:
         """Allow the client to be used as a context."""

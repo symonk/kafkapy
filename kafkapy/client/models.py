@@ -1,6 +1,4 @@
-import json
 import typing
-from dataclasses import asdict
 from dataclasses import dataclass
 
 from confluent_kafka import KafkaException
@@ -36,13 +34,11 @@ class SerializableTopicMetaData:
     error: typing.Optional[KafkaException]
 
 
-@dataclass(frozen=True)
-class SerializableClusterMetaData:
+class ClusterMetaData(BaseModel):
     """Serializable container for Topic Meta Data."""
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     brokers: typing.Dict[int, BrokerMetadata]
     cluster_id: str
     topics: typing.List[SerializableTopicMetaData]
-
-    def as_json(self) -> str:
-        return json.dumps(asdict(self))

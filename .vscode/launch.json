@@ -8,10 +8,10 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/kafkapy/main.py",
+            "program": "${workspaceFolder}/kafkapy/__main__.py",
             "console": "integratedTerminal",
             "justMyCode": false,
-            "args": ["topics", "list"]
+            "args": ["topics", "delete", "--topics", "foo", "bar"]
         }
     ]
 }

@@ -3,8 +3,8 @@ import typer
 from .__version__ import __version__
 from .constants import LibraryMeta
 from .out import write_out
-from .type_alias import BootstrapServersSplitTypes
-from .type_alias import BootstrapServersTypes
+from .types import BootstrapServersSplitTypes
+from .types import BootstrapServersTypes
 
 
 def version_callback(ctx: typer.Context, value: bool) -> str:
