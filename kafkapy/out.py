@@ -34,12 +34,13 @@ def write_err(data: typing.Union[str, Serializable], *args, **kwargs) -> None:
     print(check_is_serializable(data), *args, **kwargs, file=sys.stderr)
 
 
-def die(code: int, message: str) -> None:
+def die(code: int, message: typing.Optional[str] = None) -> None:
     """Write an error to stderr and exit.
 
     :param code: The exit code.
     :param message: The error message."""
-    write_err(message)
+    if message:
+        write_err(message)
     raise typer.Exit(code)
 
 

@@ -5,6 +5,8 @@ from confluent_kafka import KafkaException
 from pydantic import BaseModel
 from pydantic import ConfigDict
 
+from ..types import StringDictTypes
+
 
 class BrokerMeta(BaseModel):
     """A Serializable"""
@@ -41,3 +43,13 @@ class ClusterMetaData(BaseModel):
     brokers: typing.List[BrokerMeta]
     cluster_id: str
     topics: typing.List[SerializableTopicMetaData]
+
+
+class DeletedTopicsModel(BaseModel):
+    """The topics deleted by a call to the delete subcommand of topics.
+
+    :param successes: The topics, successfully deleted.
+    :param failures: The topics which failed to delete."""
+
+    successes: StringDictTypes
+    failures: StringDictTypes

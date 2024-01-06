@@ -20,6 +20,7 @@ from .options import TOPIC_PARTITION_OPTION
 from .options import TOPIC_REPLICA_ASSIGNMENT_OPTION
 from .options import TOPIC_REPLICATION_FACTOR_OPTION
 from .options import TOPICS_NAME_OPTION
+from .out import die
 from .out import write_json_out
 from .properties import KafkaProtocolProperties
 from .utils import get_client
@@ -130,7 +131,7 @@ def create(
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_DELETE))
 def delete(
     topics: Annotated[typing.List[str], TOPICS_NAME_OPTION],
-    operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 0,
+    operation_timeout: Annotated[float, OPERATION_TIMEOUT] = 30.00,
     request_timeout: Annotated[float, REQUEST_TIMEOUT] = 30.00,
     bootstrap_servers: Annotated[
         typing.List[str], BOOTSTRAP_SERVERS_OPTION
@@ -152,11 +153,14 @@ def delete(
     with get_client(
         properties=properties, bootstrap_servers=bootstrap_servers
     ) as client:
-        client.delete_topics(
+        response = client.delete_topics(
             topics=topics,
             operation_timeout=operation_timeout,
             request_timeout=request_timeout,
         )
+        write_json_out(response)
+        if response.failures:
+            die(1)
 
 
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_DESTROY))

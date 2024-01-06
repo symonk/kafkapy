@@ -1,13 +1,17 @@
 from __future__ import annotations
 
 import typing
+from concurrent.futures import CancelledError
+from concurrent.futures import TimeoutError
 
 from confluent_kafka.admin import AdminClient
 from confluent_kafka.admin import ClusterMetadata
+from confluent_kafka.admin import KafkaException
 
 from ..properties import KafkaProtocolProperties
 from .models import BrokerMeta
 from .models import ClusterMetaData
+from .models import DeletedTopicsModel
 from .models import PartitionMeta
 from .models import SerializableTopicMetaData
 
@@ -72,7 +76,7 @@ class KafkaPyClient:
         topics: typing.List[str],
         operation_timeout: float,
         request_timeout: float,
-    ) -> None:
+    ) -> DeletedTopicsModel:
         """Delete one or more topics.
 
         :param topics: The sequence of topics to delete.
@@ -81,12 +85,20 @@ class KafkaPyClient:
         :param request_timeout: The overall request timeout in seconds, including broker lookup,
         request transmission, operation time on broker and response.  Default 30 seconds.
         """
+        successful, failures = {}, {}
         response = self.client.delete_topics(
             topics=topics,
             operation_timeout=operation_timeout,
             request_timeout=request_timeout,
         )
-        return response
+        for topic, future in response.items():
+            try:
+                _ = future.result()
+            except (KafkaException, TimeoutError, CancelledError) as exc:
+                failures[topic] = str(exc)
+            else:
+                successful[topic] = ""
+        return DeletedTopicsModel(successes=successful, failures=failures)
 
     def __enter__(self) -> KafkaPyClient:
         """Allow the client to be used as a context."""
