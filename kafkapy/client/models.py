@@ -2,7 +2,6 @@ import typing
 from dataclasses import dataclass
 
 from confluent_kafka import KafkaException
-from confluent_kafka.admin import BrokerMetadata
 from pydantic import BaseModel
 from pydantic import ConfigDict
 
@@ -39,6 +38,6 @@ class ClusterMetaData(BaseModel):
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    brokers: typing.Dict[int, BrokerMetadata]
+    brokers: typing.List[BrokerMeta]
     cluster_id: str
     topics: typing.List[SerializableTopicMetaData]
