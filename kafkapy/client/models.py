@@ -27,7 +27,7 @@ class PartitionMeta(BaseModel):
 
 
 @dataclass(frozen=True)
-class SerializableTopicMetaData:
+class TopicMetaData:
     """Serializable Topic Meta Data."""
 
     topic: str
@@ -42,7 +42,7 @@ class ClusterMetaData(BaseModel):
 
     brokers: typing.List[BrokerMeta]
     cluster_id: str
-    topics: typing.List[SerializableTopicMetaData]
+    topics: typing.List[TopicMetaData]
 
 
 class DeletedTopicsModel(BaseModel):

@@ -1,9 +1,10 @@
+import typing
+
 import typer
 
 from .__version__ import __version__
 from .constants import LibraryMeta
 from .out import write_out
-from .types import BootstrapServersSplitTypes
 from .types import BootstrapServersTypes
 
 
@@ -20,19 +21,14 @@ def version_callback(ctx: typer.Context, value: bool) -> str:
 
 def bootstrap_servers_callback(
     servers: BootstrapServersTypes,
-) -> BootstrapServersSplitTypes:
-    """Split the user provided bootstrap servers into appropriate host
-    and port for kafka broker connectivity.
+) -> typing.Optional[str]:
+    """Validate the bootstrap servers (if provided) by the users.
 
     :param servers: (Optional) list of colon delimited broker servers and their port."""
-    result = []
     if not servers:
-        return result
-    for server in servers:
-        if server.count(":") > 1:
-            raise typer.BadParameter(
-                f"{server} can only contain at most a single colon ':'."
-            )
-        host, _, port = server.partition(":")
-        result.append((host, int(port)))
-    return result
+        return None
+
+    for broker in servers:
+        if broker.count(":") > 1:
+            raise typer.BadParameter("cannot contain more than 1 ':'")
+    return ",".join(servers)

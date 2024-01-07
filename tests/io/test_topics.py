@@ -1,7 +1,7 @@
 
 import pytest
 
-pytestmark = pytest.mark.requires_io
+pytestmark = pytest.mark.requires_kafka
 
 def test_fetching_with_topic_is_successful() -> None:
     ...

@@ -13,7 +13,7 @@ from .models import BrokerMeta
 from .models import ClusterMetaData
 from .models import DeletedTopicsModel
 from .models import PartitionMeta
-from .models import SerializableTopicMetaData
+from .models import TopicMetaData
 
 
 class KafkaPyClient:
@@ -33,8 +33,8 @@ class KafkaPyClient:
     def list_topics(
         self,
         topic: typing.Optional[str] = None,
-        timeout: float = -1,
-    ) -> typing.List[ClusterMetaData]:
+        timeout: float = -1.0,
+    ) -> ClusterMetaData:
         """Fetch topic meta data from the cluster.
 
         :param topic: (Optional) topic name to fetch only the data for, otherwise fetches all topics.
@@ -53,7 +53,7 @@ class KafkaPyClient:
                 for broker in response.brokers.values()
             ],
             topics=[
-                SerializableTopicMetaData(
+                TopicMetaData(
                     topic=name,
                     partitions=[
                         PartitionMeta(

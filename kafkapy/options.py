@@ -5,13 +5,14 @@ it to the required.  Options denoted with an ellipsis default are
 also required."""
 import typer
 
+from .callbacks import bootstrap_servers_callback
 from .callbacks import version_callback
 from .parsers import path_to_properties_converter
 
 BOOTSTRAP_SERVERS_OPTION = typer.Option(
     "--bootstrap-servers",
     help="Kafka bootstrap servers, overrides properties if specified.",
-    # callback=bootstrap_servers_callback,
+    callback=bootstrap_servers_callback,
 )
 
 PROPERTIES_FILE_OPTION = typer.Option(

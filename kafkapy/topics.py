@@ -41,7 +41,7 @@ def list(
     properties: Annotated[
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
-    timeout: Annotated[int, TIMEOUT_INDEF_SECONDS_OPTION] = -1,
+    timeout: Annotated[float, TIMEOUT_INDEF_SECONDS_OPTION] = -1.0,
 ) -> None:
     """Fetches topic meta data.  This includes information about the brokers,
     cluster_id and topic partition data, including leader, replic and in sync replica
