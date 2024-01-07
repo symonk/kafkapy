@@ -53,9 +53,9 @@ jobs:
             tox_env: "py310"
             do_cov: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: 'Set up Python ${{ matrix.python }}'
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '${{ matrix.python }}'
 
