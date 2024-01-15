@@ -21,14 +21,13 @@ def version_callback(ctx: typer.Context, value: bool) -> str:
 
 def bootstrap_servers_callback(
     servers: BootstrapServersTypes,
-) -> typing.Optional[str]:
+) -> typing.Optional[typing.List[str]]:
     """Validate the bootstrap servers (if provided) by the users.
 
     :param servers: (Optional) list of colon delimited broker servers and their port."""
     if not servers:
         return None
-
     for broker in servers:
         if broker.count(":") > 1:
             raise typer.BadParameter("cannot contain more than 1 ':'")
-    return ",".join(servers)
+    return servers

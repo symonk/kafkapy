@@ -1,6 +1,8 @@
 import pytest
 from confluent_kafka.admin import KafkaException
 
+from tests.markers import RequiresDockerKafka
+
 pytestmark = pytest.mark.requires_kafka
 
 def test_omitted_bootstrap_servers_reads_from_config() -> None:
@@ -20,14 +22,14 @@ def test_default_properties_dir_is_overwritable_from_environment() -> None:
     ...
     
 
-@pytest.mark.usefixtures("kafka_container")
+@RequiresDockerKafka
 def test_bootstrap_servers_is_handled_correctly(root_app, kafkapytester) -> None:
     with pytest.raises(KafkaException, match=r".*Failed to get metadata: Local: Broker transport failure"):
         result = kafkapytester.invoke(root_app, ("topics", "list", "--bootstrap-servers", "localhost:1234", "--bootstrap-servers", "localhost:4321", "--timeout", "5.0"), catch_exceptions=False)
         assert result.exit_code == 1
         assert result.return_value is None
 
-@pytest.mark.usefixtures("kafka_container")
+@RequiresDockerKafka
 def test_invalid_bootstrap_servers(root_app, kafkapytester) -> None:
     result = kafkapytester.invoke(root_app, ("topics", "list", "--bootstrap-servers", "local:host:1234", "--timeout", "5.0"))
     assert result.exit_code == 2

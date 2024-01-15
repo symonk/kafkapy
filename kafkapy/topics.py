@@ -31,6 +31,8 @@ topics_application = typer.Typer(
     rich_markup_mode="rich",
 )
 
+DEFAULT_TIMEOUT = 10.00  # Todo: Store this somewhere?
+
 
 @topics_application.command(help=generate_help(CommandDescriptions.TOPIC_LIST))
 def list(
@@ -41,7 +43,7 @@ def list(
     properties: Annotated[
         KafkaProtocolProperties, PROPERTIES_FILE_OPTION
     ] = pathlib.Path("~/.kafkapy/properties.yaml"),
-    timeout: Annotated[float, TIMEOUT_INDEF_SECONDS_OPTION] = -1.0,
+    timeout: Annotated[float, TIMEOUT_INDEF_SECONDS_OPTION] = DEFAULT_TIMEOUT,
 ) -> None:
     """Fetches topic meta data.  This includes information about the brokers,
     cluster_id and topic partition data, including leader, replic and in sync replica
