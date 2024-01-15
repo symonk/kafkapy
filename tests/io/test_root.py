@@ -32,4 +32,3 @@ def test_invalid_bootstrap_servers(root_app, kafkapytester) -> None:
     result = kafkapytester.invoke(root_app, ("topics", "list", "--bootstrap-servers", "local:host:1234", "--timeout", "5.0"))
     assert result.exit_code == 2
     assert "Invalid value for '--bootstrap-servers':" in result.stdout
-    assert "cannot contain more than 1 ':'"
