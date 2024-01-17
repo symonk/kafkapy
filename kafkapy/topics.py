@@ -83,13 +83,20 @@ def describe(
 ) -> None:
     """Describe a suite of topic(s).
 
-    :param topics: (Required) ...
-    :param include_authorized_operations: ...
-    :param request_timeout: ...
-    :param bootstrap_servers: ...
-    :param properties: ...
+    :param topics: (Required) A collection (list) of topic names to describe.
+    :param include_authorized_operations: Shouldtopic AclOperations be fetched.
+    :param request_timeout: Overall request timeout in seconds.
+    :param bootstrap_servers: The kafka broker addresses for bootstrapping client connections.
+    :param properties: The properties.yaml file path, defaults to ~/.kafkapy/properties.yaml.
     """
-    ...
+    with get_client(
+        bootstrap_servers=bootstrap_servers, properties=properties
+    ) as client:
+        _ = client.describe_topics(
+            topics=topics,
+            include_authorized_operations=include_authorized_operations,
+            request_timeout=request_timeout,
+        )
 
 
 # Todo: Make it work for one, should allow multiple topics.

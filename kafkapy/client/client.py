@@ -30,6 +30,10 @@ class KafkaPyClient:
     ):
         self.client = AdminClient(properties.data)
 
+    def describe_topics(self) -> None:
+        """Describe Some topics...
+        Todo: impl"""
+
     def list_topics(
         self,
         topic: typing.Optional[str] = None,
