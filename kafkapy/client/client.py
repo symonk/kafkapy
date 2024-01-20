@@ -43,7 +43,7 @@ class KafkaPyClient:
         """
         if not bootstrap_servers:
             # They might of only been provided in the properties file and not on the CLI.
-            return
+            properties
         properties["bootstrap_servers"] = ",".join(bootstrap_servers)
         return properties
 
