@@ -55,10 +55,10 @@ class KafkaPyClient:
     ) -> ClusterMetaData:
         """Fetch topic meta data from the cluster.
 
+        There is no asynchronous futures to await here, the response is usable right away.
+
         :param topic: (Optional) topic name to fetch only the data for, otherwise fetches all topics.
         :param timeout: The timeout for read/connect operations to the cluster, defaults to infinite (-1).
-
-        # Todo: This is not sufficient, futures may not be finished?
         """
         return ClusterMetaData.from_response(
             self.client.list_topics(
