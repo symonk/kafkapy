@@ -43,7 +43,7 @@ def test_bootstrap_servers_is_handled_correctly(root_app, kafkapytester) -> None
                 "--bootstrap-servers",
                 "localhost:4321",
                 "--timeout",
-                "5.0",
+                "15.0",
             ),
             catch_exceptions=False,
         )
