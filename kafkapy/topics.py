@@ -4,6 +4,7 @@ import typing
 import typer
 from typing_extensions import Annotated
 
+from .client import KafkaPyClient
 from .constants import AppHelp
 from .constants import CommandDescriptions
 from .constants import OptionDefaults
@@ -23,7 +24,6 @@ from .options import TOPICS_NAME_OPTION
 from .out import die
 from .out import write_json_out
 from .properties import KafkaProtocolProperties
-from .utils import get_client
 
 topics_application = typer.Typer(
     name="topics",
@@ -56,7 +56,7 @@ def list(
     :param properties: The properties.yaml file path, defaults to ~/.kafkapy/properties.yaml.
     :param topic: A specific topic to fetch, if omitted all topic data is returned.
     :param timeout: The timeout for read/connect timeouts, if omitted will try indefinitely."""
-    with get_client(
+    with KafkaPyClient(
         properties=properties,
         bootstrap_servers=bootstrap_servers,
     ) as client:
@@ -89,7 +89,7 @@ def describe(
     :param bootstrap_servers: The kafka broker addresses for bootstrapping client connections.
     :param properties: The properties.yaml file path, defaults to ~/.kafkapy/properties.yaml.
     """
-    with get_client(
+    with KafkaPyClient(
         bootstrap_servers=bootstrap_servers, properties=properties
     ) as client:
         _ = client.describe_topics(
@@ -159,8 +159,9 @@ def delete(
     :param bootstrap_servers: The kafka broker addresses for bootstrapping client connections.
     :param properties: The properties.yaml file path, defaults to ~/.kafkapy/properties.yaml.
     """
-    with get_client(
-        properties=properties, bootstrap_servers=bootstrap_servers
+    with KafkaPyClient(
+        properties=properties,
+        bootstrap_servers=bootstrap_servers,
     ) as client:
         response = client.delete_topics(
             topics=topics,

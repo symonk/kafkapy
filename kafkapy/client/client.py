@@ -26,9 +26,26 @@ class KafkaPyClient:
 
     def __init__(
         self,
+        bootstrap_servers: typing.Optional[typing.Sequence[str]],
         properties: KafkaProtocolProperties,
     ):
-        self.client = AdminClient(properties.data)
+        self.properties = self.merge_bootstrap_servers(properties, bootstrap_servers)
+        self.client = AdminClient(self.properties.data)
+
+    def merge_bootstrap_servers(
+        self,
+        properties: KafkaProtocolProperties,
+        bootstrap_servers: typing.Optional[typing.Sequence[str]],
+    ) -> KafkaProtocolProperties:
+        """Updates properties in place if bootstrap_servers has been provided by the user.
+
+        :param bootstrap_servers: The sequence of broker addresses.
+        """
+        if not bootstrap_servers:
+            # They might of only been provided in the properties file and not on the CLI.
+            return
+        properties["bootstrap_servers"] = ",".join(bootstrap_servers)
+        return properties
 
     def describe_topics(self) -> None:
         """Describe Some topics...
