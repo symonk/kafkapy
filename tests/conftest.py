@@ -54,7 +54,8 @@ def has_topics_in_response(addr: str, topics: typing.Tuple[str]) -> bool:
     
     :param addr: The address (TCP) to talk to the cluster.
     :param topics: The sequence of topics that must exist."""
-    with KafkaPyClient(properties=KafkaProtocolProperties({f"bootstrap.servers": addr})) as client:
+    with KafkaPyClient(bootstrap_servers=None,
+                        properties=KafkaProtocolProperties({f"bootstrap.servers": addr})) as client:
         try:
             topics_response = client.list_topics(timeout=5)
             parsed_topics = set([t.topic for t in topics_response.topics])

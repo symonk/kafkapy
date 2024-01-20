@@ -90,7 +90,8 @@ def describe(
     :param properties: The properties.yaml file path, defaults to ~/.kafkapy/properties.yaml.
     """
     with KafkaPyClient(
-        bootstrap_servers=bootstrap_servers, properties=properties
+        bootstrap_servers=bootstrap_servers,
+        properties=properties,
     ) as client:
         _ = client.describe_topics(
             topics=topics,
