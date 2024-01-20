@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import typing
 from dataclasses import dataclass
 
@@ -43,6 +45,33 @@ class ClusterMetaData(BaseModel):
     brokers: typing.List[BrokerMeta]
     cluster_id: str
     topics: typing.List[TopicMetaData]
+
+    @classmethod
+    def from_response(cls, response: typing.Any) -> ClusterMetaData:
+        return ClusterMetaData(
+            cluster_id=response.cluster_id,
+            brokers=[
+                BrokerMeta(host=broker.host, port=broker.port, broker_id=broker.id)
+                for broker in response.brokers.values()
+            ],
+            topics=[
+                TopicMetaData(
+                    topic=name,
+                    partitions=[
+                        PartitionMeta(
+                            partition_id=partition.id,
+                            leader=partition.leader,
+                            replicas=partition.replicas,
+                            in_sync_replicas=partition.isrs,
+                            error=partition.error,
+                        )
+                        for partition in meta_data.partitions.values()
+                    ],
+                    error=meta_data.error,
+                )
+                for name, meta_data in response.topics.items()
+            ],
+        )
 
 
 class DeletedTopicsModel(BaseModel):

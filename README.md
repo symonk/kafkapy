@@ -11,6 +11,7 @@ for all management and inspection actions.  I wrote this tool when working with 
 different utility scripts from confluence was combersome and often required additional pre/post processing of the
 data which is not in a suitable format for piping etc, thus `kafkapy` was born.
 
+
 `kafkapy` aims to implement all the actions supported by the confluence utility scripts, but also plans to build in
 testability for common tasks, such as calculating the sum of all offset lag across all partitions for a topic etc.
 

@@ -1,19 +1,16 @@
 from __future__ import annotations
 
+import types
 import typing
 from concurrent.futures import CancelledError
 from concurrent.futures import TimeoutError
 
 from confluent_kafka.admin import AdminClient
-from confluent_kafka.admin import ClusterMetadata
 from confluent_kafka.admin import KafkaException
 
 from ..properties import KafkaProtocolProperties
-from .models import BrokerMeta
 from .models import ClusterMetaData
 from .models import DeletedTopicsModel
-from .models import PartitionMeta
-from .models import TopicMetaData
 
 
 class KafkaPyClient:
@@ -43,8 +40,8 @@ class KafkaPyClient:
         """
         if not bootstrap_servers:
             # They might of only been provided in the properties file and not on the CLI.
-            properties
-        properties["bootstrap_servers"] = ",".join(bootstrap_servers)
+            return properties
+        properties["bootstrap.servers"] = ",".join(bootstrap_servers)
         return properties
 
     def describe_topics(self) -> None:
@@ -63,33 +60,11 @@ class KafkaPyClient:
 
         # Todo: This is not sufficient, futures may not be finished?
         """
-        response: ClusterMetadata = self.client.list_topics(
-            topic=topic,
-            timeout=timeout,
-        )
-        return ClusterMetaData(
-            cluster_id=response.cluster_id,
-            brokers=[
-                BrokerMeta(host=broker.host, port=broker.port, broker_id=broker.id)
-                for broker in response.brokers.values()
-            ],
-            topics=[
-                TopicMetaData(
-                    topic=name,
-                    partitions=[
-                        PartitionMeta(
-                            partition_id=partition.id,
-                            leader=partition.leader,
-                            replicas=partition.replicas,
-                            in_sync_replicas=partition.isrs,
-                            error=partition.error,
-                        )
-                        for partition in meta_data.partitions.values()
-                    ],
-                    error=meta_data.error,
-                )
-                for name, meta_data in response.topics.items()
-            ],
+        return ClusterMetaData.from_response(
+            self.client.list_topics(
+                topic=topic,
+                timeout=timeout,
+            )
         )
 
     def delete_topics(
@@ -125,10 +100,11 @@ class KafkaPyClient:
         """Allow the client to be used as a context."""
         return self
 
-    def __exit__(self, *args, **kwargs) -> bool:
-        # Todo: Implement types etc.
-        return
-
-    def close(self) -> None:
-        """Close the underlying client"""
+    def __exit__(
+        self,
+        exc_type: typing.Optional[typing.Type[BaseException]] = None,
+        exc: typing.Optional[BaseException] = None,
+        traceback: typing.Optional[types.TracebackType] = None,
+    ) -> typing.Optional[bool]:
+        # Todo: Does the underlying client need closed? nothing in it's public API for now.
         ...
