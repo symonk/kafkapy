@@ -48,7 +48,7 @@ pytest-xdist = "^3.3.1"
 typing-extensions = "^4.7.1"
 pytest-cov = "^4.1.0"
 pytest-docker = "^2.0.1"
-black = "^23.12.1"
+black = ">=23.12.1,<25.0.0"
 
 
 [tool.mypy]
